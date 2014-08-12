@@ -29,6 +29,18 @@ public class ControllerLogin {
     }
 
     public void conectar() {
+        int a = 0;
+        if (a == 0) {
+            view.dispose();
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    new ViewContatos(null).setVisible(true);
+                }
+            });
+            return;
+        }
+
         String chave = view.getChave();
         String senha = view.getSenha();
 
