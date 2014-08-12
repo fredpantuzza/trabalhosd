@@ -13,6 +13,8 @@ import model.Contato;
  */
 public class BusinessLogin {
 
+    private static final String MSG_ERRO_SENHA_INVALIDA = "Chave ou senha inválida!";
+
     private static BusinessLogin instance = null;
 
     public static BusinessLogin getInstance() {
@@ -25,7 +27,7 @@ public class BusinessLogin {
     private BusinessLogin() {
     }
 
-    public Contato conectar(String chave, String senha) {
-        throw new RuntimeException("Este método não foi implementado!");
+    public Contato conectar(String chave, String senha) throws BusinessException {
+        throw new BusinessException(MSG_ERRO_SENHA_INVALIDA);
     }
 }

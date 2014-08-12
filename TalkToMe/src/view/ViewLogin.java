@@ -5,7 +5,9 @@
  */
 package view;
 
+import business.BusinessException;
 import controller.ControllerLogin;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,8 +46,10 @@ public class ViewLogin extends javax.swing.JFrame {
         setTitle("Login");
         setName("viewLogin"); // NOI18N
 
+        labelChave.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelChave.setText("Chave:");
 
+        labelSenha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelSenha.setText("Senha:");
 
         buttonConectar.setText("Conectar");
@@ -68,15 +72,16 @@ public class ViewLogin extends javax.swing.JFrame {
             panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLoginLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelChave)
-                    .addComponent(labelSenha))
+                .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(labelSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelChave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(buttonCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                    .addComponent(buttonConectar, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                    .addComponent(textChave)
-                    .addComponent(textSenha, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(buttonCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                    .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(textChave)
+                        .addComponent(textSenha)
+                        .addComponent(buttonConectar, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLoginLayout.setVerticalGroup(
@@ -118,11 +123,15 @@ public class ViewLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConectarActionPerformed
-        controller.conectar();
+        try {
+            this.controller.conectar();
+        } catch (BusinessException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_buttonConectarActionPerformed
 
     private void buttonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarActionPerformed
-        // TODO add your handling code here:
+        this.controller.cadastrar();
     }//GEN-LAST:event_buttonCadastrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

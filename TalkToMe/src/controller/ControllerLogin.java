@@ -5,10 +5,11 @@
  */
 package controller;
 
+import business.BusinessException;
 import business.BusinessLogin;
 import java.awt.EventQueue;
-import javax.swing.JOptionPane;
 import model.Contato;
+import view.ViewCadastro;
 import view.ViewContatos;
 import view.ViewLogin;
 
@@ -18,7 +19,6 @@ import view.ViewLogin;
  */
 public class ControllerLogin {
 
-    private static final String MSG_ERRO_SENHA_INVALIDA = "Chave ou senha inválida!";
     private final BusinessLogin businessLogin;
 
     private final ViewLogin view;
@@ -28,35 +28,28 @@ public class ControllerLogin {
         this.businessLogin = BusinessLogin.getInstance();
     }
 
-    public void conectar() {
-        int a = 0;
-        if (a == 0) {
-            view.dispose();
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    new ViewContatos(null).setVisible(true);
-                }
-            });
-            return;
-        }
+    public void conectar() throws BusinessException {
+        String chave = this.view.getChave();
+        String senha = this.view.getSenha();
+        final Contato contato = this.businessLogin.conectar(chave, senha);
 
-        String chave = view.getChave();
-        String senha = view.getSenha();
+        this.view.dispose();
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ViewContatos(contato).setVisible(true);
+            }
+        });
+    }
 
-        final Contato contato = businessLogin.conectar(chave, senha);
+    public void cadastrar() {
+        this.view.setVisible(false);
 
-        if (contato == null) {
-            JOptionPane.showMessageDialog(view, MSG_ERRO_SENHA_INVALIDA);
-        } else {
-            view.dispose();
-
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    new ViewContatos(contato).setVisible(true);
-                }
-            });
-        }
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ViewCadastro(view).setVisible(true);
+            }
+        });
     }
 }
