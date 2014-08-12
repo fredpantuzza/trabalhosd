@@ -33,6 +33,8 @@ public class ControllerLogin {
         String senha = this.view.getSenha();
         final Contato contato = this.businessLogin.conectar(chave, senha);
 
+        this.view.onConectadoComSucesso();
+        
         this.view.dispose();
         EventQueue.invokeLater(new Runnable() {
             @Override

@@ -5,6 +5,11 @@
  */
 package view;
 
+import controller.ControllerContatos;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 import model.Contato;
 
 /**
@@ -13,15 +18,23 @@ import model.Contato;
  */
 public class ViewContatos extends javax.swing.JFrame {
 
+    private final ControllerContatos controller;
     private final Contato user;
+    private final TableContatosModel tableContatosModel;
 
     /**
      * Creates new form Contatos
+     *
+     * @param user
      */
     public ViewContatos(Contato user) {
+        this.controller = new ControllerContatos(this);
         this.user = user;
-        
+        this.tableContatosModel = new TableContatosModel();
         initComponents();
+        this.labelNick.setText(this.user.getNick());
+        this.textChave.setText(this.user.getChave());
+        atualizarListaContatos();
     }
 
     /**
@@ -33,22 +46,173 @@ public class ViewContatos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelContatos = new javax.swing.JPanel();
+        labelBemVindo = new javax.swing.JLabel();
+        labelChave = new javax.swing.JLabel();
+        textChave = new javax.swing.JTextField();
+        labelNick = new javax.swing.JLabel();
+        scrollContatos = new javax.swing.JScrollPane();
+        tableContatos = new javax.swing.JTable();
+        buttonAdd = new javax.swing.JButton();
+        buttonConversar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        labelBemVindo.setText("Bem vindo");
+
+        labelChave.setText("Minha chave:");
+
+        textChave.setEnabled(false);
+
+        labelNick.setText(" ");
+
+        tableContatos.setModel(tableContatosModel);
+        scrollContatos.setViewportView(tableContatos);
+
+        buttonAdd.setText("Adicionad contato");
+
+        buttonConversar.setText("Conversar");
+
+        javax.swing.GroupLayout panelContatosLayout = new javax.swing.GroupLayout(panelContatos);
+        panelContatos.setLayout(panelContatosLayout);
+        panelContatosLayout.setHorizontalGroup(
+            panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelContatosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelContatosLayout.createSequentialGroup()
+                        .addComponent(labelBemVindo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelNick))
+                    .addGroup(panelContatosLayout.createSequentialGroup()
+                        .addComponent(labelChave)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textChave, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(panelContatosLayout.createSequentialGroup()
+                            .addComponent(buttonAdd)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonConversar))
+                        .addComponent(scrollContatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelContatosLayout.setVerticalGroup(
+            panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelContatosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelBemVindo)
+                    .addComponent(labelNick))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelChave)
+                    .addComponent(textChave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollContatos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonAdd)
+                    .addComponent(buttonConversar))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelContatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelContatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonAdd;
+    private javax.swing.JButton buttonConversar;
+    private javax.swing.JLabel labelBemVindo;
+    private javax.swing.JLabel labelChave;
+    private javax.swing.JLabel labelNick;
+    private javax.swing.JPanel panelContatos;
+    private javax.swing.JScrollPane scrollContatos;
+    private javax.swing.JTable tableContatos;
+    private javax.swing.JTextField textChave;
     // End of variables declaration//GEN-END:variables
+
+    private void atualizarListaContatos() {
+        this.controller.getListaContatos(this.tableContatosModel.getListaContatos());
+        this.tableContatos.updateUI();
+    }
+
+    class TableContatosModel implements TableModel {
+
+        private final List<Contato> listaContatos;
+        private final String[] columns = new String[]{"Chave", "Nick"};
+
+        public TableContatosModel() {
+            this.listaContatos = new ArrayList<>();
+        }
+
+        public List<Contato> getListaContatos() {
+            return this.listaContatos;
+        }
+
+        @Override
+        public int getRowCount() {
+            return this.listaContatos.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+            return 2;
+        }
+
+        @Override
+        public String getColumnName(int columnIndex) {
+            return columns[columnIndex];
+        }
+
+        @Override
+        public Class<?> getColumnClass(int columnIndex) {
+            return String.class;
+        }
+
+        @Override
+        public boolean isCellEditable(int rowIndex, int columnIndex) {
+            return false;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+            Contato contato = this.listaContatos.get(rowIndex);
+            switch (columnIndex) {
+                case 0:
+                    return contato.getChave();
+                case 1:
+                    return contato.getNick();
+            }
+            return null;
+        }
+
+        @Override
+        public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        }
+
+        @Override
+        public void addTableModelListener(TableModelListener l) {
+        }
+
+        @Override
+        public void removeTableModelListener(TableModelListener l) {
+        }
+    }
 }

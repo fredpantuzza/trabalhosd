@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 /**
@@ -11,8 +10,25 @@ package model;
  * @author Thiago
  */
 public class Contato {
-    public String chave;
-    public String senha;
-    public String nick;
-    public String lastIP;
+
+    private String chave;
+    private String senha;
+    private String nick;
+    private String lastIP;
+
+    public Contato(String chave, String senha, String nick, String lastIP) {
+        this.chave = chave;
+        this.senha = senha;
+        this.nick = nick;
+        this.lastIP = lastIP;
+    }
+
+    public String getChave() {
+        return this.chave;
+    }
+
+    public String getNick() {
+        return this.nick;
+    }
+
 }

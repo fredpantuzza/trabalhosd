@@ -39,6 +39,8 @@ public class ControllerCadastro {
         this.business.verificarSenha(senha, confirmarSenha);
         this.contato = this.business.cadastrar(nick, senha);
 
+        this.view.onCadastradoComSucesso(this.contato.getChave());
+        
         this.view.dispose();
         this.viewLogin.dispose();
         EventQueue.invokeLater(new Runnable() {

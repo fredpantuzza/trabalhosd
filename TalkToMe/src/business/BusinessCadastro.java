@@ -28,6 +28,10 @@ public class BusinessCadastro {
     }
 
     public Contato cadastrar(String nick, String senha) throws BusinessException {
+        //TODO: Isto é um teste. A verdadeira verificação deve ser implementada!
+        if ("".equals("")) {
+            return new Contato("000110045", senha, nick, null);
+        }
         throw new BusinessException(MSG_ERRO_CADASTRAR);
     }
 

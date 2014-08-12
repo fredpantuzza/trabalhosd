@@ -28,6 +28,10 @@ public class BusinessLogin {
     }
 
     public Contato conectar(String chave, String senha) throws BusinessException {
+        //TODO: Isto é um teste. A verdadeira verificação deve ser implementada!
+        if ("".equals("")) {
+            return new Contato(chave, senha, "Homem-aranha", "192.168.171.69");
+        }
         throw new BusinessException(MSG_ERRO_SENHA_INVALIDA);
     }
 }

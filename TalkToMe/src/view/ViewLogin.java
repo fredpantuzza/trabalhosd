@@ -151,4 +151,8 @@ public class ViewLogin extends javax.swing.JFrame {
     public String getSenha() {
         return String.copyValueOf(this.textSenha.getPassword());
     }
+
+    public void onConectadoComSucesso() {
+        JOptionPane.showMessageDialog(this, "Você está conectado!");
+    }
 }

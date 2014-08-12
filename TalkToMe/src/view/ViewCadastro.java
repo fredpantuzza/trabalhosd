@@ -184,4 +184,10 @@ public class ViewCadastro extends javax.swing.JFrame {
     public String getIP() {
         return this.textIP.getText();
     }
+
+    public void onCadastradoComSucesso(String chave) {
+        JOptionPane.showMessageDialog(this, "Seu cadastro foi efetuado com sucesso!\n"
+                + "Sua chave é " + chave + ".\n"
+                + "Você precisa informar esta chave a seus amigos para que eles possam conversar com você.");
+    }
 }
