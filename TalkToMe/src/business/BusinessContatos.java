@@ -55,7 +55,7 @@ public class BusinessContatos {
      * @return
      */
     public boolean inicializarListaContatos(List<Contato> listaContatos, Contato user) {
-        List<Contato> listaContatosLocal = this.getListaContatosLocal();
+        List<Contato> listaContatosLocal = this.getListaContatosLocal(user);
         List<Contato> listaContatosServidor = this.getListaContatosServidor(user);
         List<Contato> listaMerged = this.mergeListaContato(listaContatosLocal, listaContatosServidor);
 
@@ -79,6 +79,7 @@ public class BusinessContatos {
      * conseguir se comunicar com o servidor, e false caso contrário.
      *
      * @param listaContatos
+     * @param user
      * @return
      */
     public boolean manterListaContatos(List<Contato> listaContatos, Contato user) {
@@ -86,8 +87,8 @@ public class BusinessContatos {
         return (this.manterListaContatosServidor(listaContatos, user));
     }
 
-    private List<Contato> getListaContatosLocal() {
-        return repositoryContato.getListaLocalContatos();
+    private List<Contato> getListaContatosLocal(Contato user) {
+        return repositoryContato.getListaLocalContatos(user);
     }
 
     private List<Contato> getListaContatosServidor(Contato user) {

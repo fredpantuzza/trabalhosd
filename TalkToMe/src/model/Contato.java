@@ -5,12 +5,14 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Thiago
  */
-public class Contato {
-
+public class Contato implements Serializable{
+    
     private String chave;
     private String senha;
     private String nick;

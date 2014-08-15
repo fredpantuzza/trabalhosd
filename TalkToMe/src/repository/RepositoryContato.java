@@ -5,8 +5,17 @@
  */
 package repository;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Contato;
 
 /**
@@ -30,14 +39,65 @@ public class RepositoryContato {
     /**
      * Retorna a lista de contatos mantida localmente pelo usuário.
      *
+     * @param user
      * @return
      */
-    public List<Contato> getListaLocalContatos() {
-        List<Contato> lista = new ArrayList<>();
-        lista.add(new Contato("0000001", "123456", "Kuem", null));
-        lista.add(new Contato("0000002", "malu", "Malu H-tinha", null));
-        lista.add(new Contato("0000003", "meu nome eh eneias", "Fred", null));
-        return lista;
+    public List<Contato> getListaLocalContatos(Contato user) {
+        ArrayList<Contato> listaContatos = new ArrayList<>();
+
+        FileInputStream stream = null;
+        try {
+            stream = new FileInputStream(user.getChave() + ".lst");
+            ObjectInputStream objStream = new ObjectInputStream(stream);
+            Contato contato;
+            while ((contato = (Contato) objStream.readObject()) != null) {
+                try {
+                    listaContatos.add(contato);
+                } catch (Exception e) {
+
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RepositoryContato.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RepositoryContato.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RepositoryContato.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (stream != null) {
+                    stream.close();
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(RepositoryContato.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return listaContatos;
+    }
+
+    public void manterListaContatos(List<Contato> listaContatos, Contato user) {
+        FileOutputStream stream;
+        try {
+            File file = new File(user.getChave() + ".lst");
+            if (file.exists()) {
+                file.delete();
+            }
+
+            stream = new FileOutputStream(file);
+            ObjectOutputStream objStream = new ObjectOutputStream(stream);
+            for (Contato contato : listaContatos) {
+                try {
+                    objStream.writeObject(contato);
+                } catch (Exception e) {
+
+                }
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RepositoryContato.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RepositoryContato.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -52,7 +112,4 @@ public class RepositoryContato {
         return null;
     }
 
-    public void manterListaContatos(List<Contato> listaContatos, Contato user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
