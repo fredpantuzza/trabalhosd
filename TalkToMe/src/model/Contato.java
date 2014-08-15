@@ -6,17 +6,18 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
  * @author Thiago
  */
-public class Contato implements Serializable{
-    
-    private String chave;
-    private String senha;
-    private String nick;
-    private String lastIP;
+public class Contato implements Serializable {
+
+    private final String chave;
+    private final String senha;
+    private final String nick;
+    private final String lastIP;
 
     public Contato(String chave, String senha, String nick, String lastIP) {
         this.chave = chave;
@@ -31,6 +32,22 @@ public class Contato implements Serializable{
 
     public String getNick() {
         return this.nick;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Contato) {
+            Contato contato = (Contato) obj;
+            return (this.chave == null ? contato.chave == null : this.chave.equals(contato.chave));
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 73 * hash + Objects.hashCode(this.chave);
+        return hash;
     }
 
 }
