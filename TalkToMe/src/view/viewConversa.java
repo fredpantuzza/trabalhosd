@@ -6,6 +6,8 @@
 package view;
 
 import controller.ControllerConversa;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import model.Conexao;
 import model.Mensagem;
@@ -147,7 +149,14 @@ public class viewConversa extends javax.swing.JFrame {
     }
 
     public void atualizarConversa(List<Mensagem> listaMensagens) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        StringBuilder texto = new StringBuilder();
+        for (Mensagem msg : listaMensagens) {
+            texto.append(msg.getRemetente().getNick()).append(" disse (").append(apresentarHora(msg.getTime())).append("):\n");
+            texto.append(msg.getMensagem()).append("\n\n");
+        }
     }
 
+    private String apresentarHora(Date time) {
+        return time.toGMTString();
+    }
 }

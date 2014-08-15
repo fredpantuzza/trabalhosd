@@ -5,14 +5,22 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author Thiago
  */
 public class Mensagem {
 
+    private Contato remetente;
     private String mensagem;
     private int id;
+    private Date time;
+
+    public Contato getRemetente() {
+        return this.remetente;
+    }
 
     public String getMensagem() {
         return this.mensagem;
@@ -20,5 +28,9 @@ public class Mensagem {
 
     public int getId() {
         return this.id;
+    }
+
+    public Date getTime() {
+        return this.time;
     }
 }
