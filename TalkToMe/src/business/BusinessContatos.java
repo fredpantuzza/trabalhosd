@@ -40,6 +40,20 @@ public class BusinessContatos {
         return businessConexao.getConexaoContato(user, contato);
     }
 
+    public void finalizarConexao(Conexao conexao) {
+        this.businessConexao.finalizarConexao(conexao);
+    }
+
+    /**
+     * Inicializa a lista de contatos. A lista é primeiro lida localmente, e
+     * depois lida do servidor para fazer o merge. As regras de merge são
+     * implementadas em mergeListaContato. O método retorna true se o sistema
+     * conseguir se comunicar com o servidor, e false caso contrário.
+     *
+     * @param listaContatos
+     * @param user
+     * @return
+     */
     public boolean inicializarListaContatos(List<Contato> listaContatos, Contato user) {
         List<Contato> listaContatosLocal = this.getListaContatosLocal();
         List<Contato> listaContatosServidor = this.getListaContatosServidor(user);
@@ -59,9 +73,17 @@ public class BusinessContatos {
         }
     }
 
-    public boolean manterListaContatos(List<Contato> listaContatos) {
-        this.manterListaContatosLocal(listaContatos);
-        return (this.manterListaContatosServidor(listaContatos));
+    /**
+     * Mantem as informações da lista de contatos. As informações são
+     * atualizadas localmente e no servidor. O método retorna true se o sistema
+     * conseguir se comunicar com o servidor, e false caso contrário.
+     *
+     * @param listaContatos
+     * @return
+     */
+    public boolean manterListaContatos(List<Contato> listaContatos, Contato user) {
+        this.manterListaContatosLocal(listaContatos, user);
+        return (this.manterListaContatosServidor(listaContatos, user));
     }
 
     private List<Contato> getListaContatosLocal() {
@@ -90,12 +112,12 @@ public class BusinessContatos {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void manterListaContatosLocal(List<Contato> listaContatos) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void manterListaContatosLocal(List<Contato> listaContatos, Contato user) {
+        this.repositoryContato.manterListaContatos(listaContatos, user);
     }
 
-    private boolean manterListaContatosServidor(List<Contato> listaContatos) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private boolean manterListaContatosServidor(List<Contato> listaContatos, Contato user) {
+        return this.businessServidor.manterListaContatos(listaContatos, user);
     }
 
     public void validarContatoAdicionado(List<Contato> listaContatos, Contato contato) throws BusinessException {

@@ -8,6 +8,7 @@ package controller;
 import business.BusinessContatos;
 import business.BusinessException;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.List;
 import model.Conexao;
 import model.Contato;
@@ -25,21 +26,26 @@ public class ControllerContatos {
     private final ViewContatos view;
     private final Contato user;
 
+    private final List<Conexao> listaConexoes;
+
     public ControllerContatos(ViewContatos viewContatos) {
         this.view = viewContatos;
         this.user = this.view.getContatoUser();
+        this.listaConexoes = new ArrayList<>();
         this.business = BusinessContatos.getInstance();
     }
 
     /**
      * Carrega os contatos gravados no computador.
+     *
+     * @param user
      */
     public void inicializarListaContatos(Contato user) {
         this.view.setSincronizacao(this.business.inicializarListaContatos(this.view.getListaContatos(), user));
     }
 
     public void manterListaContatos() {
-        this.view.setSincronizacao(this.business.manterListaContatos(this.view.getListaContatos()));
+        this.view.setSincronizacao(this.business.manterListaContatos(this.view.getListaContatos(), this.user));
     }
 
     public void adicionarContato() {
@@ -58,6 +64,8 @@ public class ControllerContatos {
 
         final Conexao conexao = this.business.conectarComContato(user, contato);
 
+        this.registrarNovaConexao(conexao);
+
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -68,6 +76,20 @@ public class ControllerContatos {
 
     public void onContatoAdicionado(Contato contato) throws BusinessException {
         this.business.validarContatoAdicionado(this.view.getListaContatos(), contato);
+    }
+
+    private void registrarNovaConexao(Conexao conexao) {
+        this.listaConexoes.add(conexao);
+    }
+
+    public void finalizarConexoes() {
+        for (Conexao conexao : this.listaConexoes) {
+            this.finalizarConexao(conexao);
+        }
+    }
+
+    private void finalizarConexao(Conexao conexao) {
+        this.business.finalizarConexao(conexao);
     }
 
 }

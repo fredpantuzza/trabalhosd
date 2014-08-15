@@ -31,4 +31,8 @@ public class BusinessConexao {
         throw new BusinessException(MSG_ERRO_CONTATO_OFFLINE);
     }
 
+    void finalizarConexao(Conexao conexao) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

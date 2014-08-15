@@ -54,16 +54,29 @@ public class BusinessServidor {
      * @param ex
      * @return
      */
-    boolean isErrorServidorOffline(BusinessException ex) {
+    public boolean isErrorServidorOffline(BusinessException ex) {
         return ex.getMessage().equals(MSG_ERRO_SERVIDOR_OFFLINE);
     }
 
-    Contato cadastrar(String nick, String senha) throws BusinessException {
+    public Contato cadastrar(String nick, String senha) throws BusinessException {
         //TODO: Isto é um teste. A verdadeira verificação deve ser implementada!
         if ("".equals("")) {
             return new Contato("000110045", senha, nick, null);
         }
         throw new BusinessException(MSG_ERRO_CADASTRAR);
+    }
+
+    /**
+     * Mantém a lista de contatos do contato no servidor. A lista do contato é
+     * sobreposta. Dessa forma, o lista no servidor é totalmente apagada e
+     * depois a nova lista é sobreposta.
+     *
+     * @param listaContatos Nova lista de contatos do usuário.
+     * @param user Contato que representa o usuário.
+     * @return
+     */
+    public boolean manterListaContatos(List<Contato> listaContatos, Contato user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

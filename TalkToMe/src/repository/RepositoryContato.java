@@ -51,4 +51,8 @@ public class RepositoryContato {
     public Contato login(String chave, String senha) {
         return null;
     }
+
+    public void manterListaContatos(List<Contato> listaContatos, Contato user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -42,7 +42,8 @@ public class TalkToMe {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ViewContatos(new Contato("chave", "senha", "nick", "lastIP")).setVisible(true);
+                //new ViewContatos(new Contato("chave", "senha", "nick", "lastIP")).setVisible(true);
+                new ViewLogin().setVisible(true);
             }
         });
     }
