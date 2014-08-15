@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import model.Conexao;
 import model.Mensagem;
@@ -30,6 +31,7 @@ public class ControllerConversa {
     private ServicoEscrita sEscrita = null;
 
     private final List<Mensagem> listaMensagens;
+    private int currentID = 0;
 
     public ControllerConversa(viewConversa view, Conexao conexao) {
         this.business = BusinessConversa.getInstance();
@@ -48,9 +50,15 @@ public class ControllerConversa {
         }
     }
 
-    public void enviarMensagem(Mensagem msg) {
+    public void enviarMensagem(String mensagem) {
+        proximoMsgID();
+        Mensagem msg = new Mensagem(this.conexao.getContatoUser(), mensagem, currentID, new Date());
         this.listaMensagens.add(msg);
         this.sEscrita.enviarMensagem(msg);
+    }
+
+    private void proximoMsgID() {
+        this.currentID++;
     }
 
     public void onMensagemRecebida(Mensagem msg) {

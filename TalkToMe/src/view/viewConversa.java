@@ -6,7 +6,6 @@
 package view;
 
 import controller.ControllerConversa;
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import model.Conexao;
@@ -74,6 +73,11 @@ public class viewConversa extends javax.swing.JFrame {
         scrollConversa.setViewportView(textConversa);
 
         buttonEnviar.setText("Enviar");
+        buttonEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEnviarActionPerformed(evt);
+            }
+        });
 
         textMensagem.setColumns(20);
         textMensagem.setForeground(new java.awt.Color(153, 153, 153));
@@ -127,6 +131,10 @@ public class viewConversa extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEnviarActionPerformed
+        this.controller.enviarMensagem(this.textMensagem.getText());
+    }//GEN-LAST:event_buttonEnviarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonEnviar;
     private javax.swing.JButton jButton2;
@@ -145,7 +153,7 @@ public class viewConversa extends javax.swing.JFrame {
      * cancelado.
      */
     private void cancelarInicializacaoTela() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.dispose();
     }
 
     public void atualizarConversa(List<Mensagem> listaMensagens) {

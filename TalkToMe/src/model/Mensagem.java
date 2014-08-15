@@ -18,6 +18,13 @@ public class Mensagem {
     private int id;
     private Date time;
 
+    public Mensagem(Contato remetente, String mensagem, int id, Date time) {
+        this.remetente = remetente;
+        this.mensagem = mensagem;
+        this.id = id;
+        this.time = time;
+    }
+
     public Contato getRemetente() {
         return this.remetente;
     }
