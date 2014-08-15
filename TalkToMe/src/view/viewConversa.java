@@ -5,7 +5,10 @@
  */
 package view;
 
+import controller.ControllerConversa;
+import java.util.List;
 import model.Conexao;
+import model.Mensagem;
 
 /**
  *
@@ -13,11 +16,23 @@ import model.Conexao;
  */
 public class viewConversa extends javax.swing.JFrame {
 
+    private final Conexao conexao;
+    private final ControllerConversa controller;
+
     /**
      * Creates new form viewConversa
+     *
+     * @param conexao
      */
     public viewConversa(Conexao conexao) {
+        this.conexao = conexao;
         initComponents();
+        this.textChaveContato.setText(conexao.getContatoDestino().getChave());
+        this.textNickContato.setText(conexao.getContatoDestino().getNick());
+        this.controller = new ControllerConversa(this, this.conexao);
+        if (!this.controller.iniciarServicosLeituraEscrita()) {
+            this.cancelarInicializacaoTela();
+        }
     }
 
     /**
@@ -30,39 +45,39 @@ public class viewConversa extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton2 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        labelChaveContato = new javax.swing.JLabel();
+        textChaveContato = new javax.swing.JTextField();
+        labelNickContato = new javax.swing.JLabel();
+        textNickContato = new javax.swing.JTextField();
+        scrollConversa = new javax.swing.JScrollPane();
+        textConversa = new javax.swing.JTextArea();
+        buttonEnviar = new javax.swing.JButton();
+        scrollMensagem = new javax.swing.JScrollPane();
+        textMensagem = new javax.swing.JTextArea();
 
         jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Chave:");
+        labelChaveContato.setText("Chave:");
 
-        jTextField1.setEnabled(false);
+        textChaveContato.setEnabled(false);
 
-        jLabel2.setText("Nick:");
+        labelNickContato.setText("Nick:");
 
-        jTextField2.setEnabled(false);
+        textNickContato.setEnabled(false);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        textConversa.setColumns(20);
+        textConversa.setRows(5);
+        scrollConversa.setViewportView(textConversa);
 
-        jButton1.setText("Enviar");
+        buttonEnviar.setText("Enviar");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setForeground(new java.awt.Color(153, 153, 153));
-        jTextArea2.setRows(5);
-        jTextArea2.setText("Escreva uma mensagem...");
-        jScrollPane2.setViewportView(jTextArea2);
+        textMensagem.setColumns(20);
+        textMensagem.setForeground(new java.awt.Color(153, 153, 153));
+        textMensagem.setRows(5);
+        textMensagem.setText("Escreva uma mensagem...");
+        scrollMensagem.setViewportView(textMensagem);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -71,20 +86,20 @@ public class viewConversa extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
+                    .addComponent(scrollConversa, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(labelChaveContato)
+                            .addComponent(labelNickContato))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                            .addComponent(jTextField2))
+                            .addComponent(textChaveContato, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(textNickContato))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane2))
+                        .addComponent(buttonEnviar))
+                    .addComponent(scrollMensagem))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -92,18 +107,18 @@ public class viewConversa extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelChaveContato)
+                    .addComponent(textChaveContato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelNickContato)
+                    .addComponent(textNickContato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                .addComponent(scrollConversa, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(buttonEnviar)
                 .addContainerGap())
         );
 
@@ -111,15 +126,28 @@ public class viewConversa extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton buttonEnviar;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel labelChaveContato;
+    private javax.swing.JLabel labelNickContato;
+    private javax.swing.JScrollPane scrollConversa;
+    private javax.swing.JScrollPane scrollMensagem;
+    private javax.swing.JTextField textChaveContato;
+    private javax.swing.JTextArea textConversa;
+    private javax.swing.JTextArea textMensagem;
+    private javax.swing.JTextField textNickContato;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Em casos de falhas na inicialização do controle desta tela, tudo será
+     * cancelado.
+     */
+    private void cancelarInicializacaoTela() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void atualizarConversa(List<Mensagem> listaMensagens) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
