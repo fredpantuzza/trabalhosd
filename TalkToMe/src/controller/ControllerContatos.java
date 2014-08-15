@@ -8,6 +8,8 @@ package controller;
 import business.BusinessContatos;
 import business.BusinessException;
 import java.awt.EventQueue;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import model.Conexao;
@@ -28,11 +30,22 @@ public class ControllerContatos {
 
     private final List<Conexao> listaConexoes;
 
+    private ServicoConexao sConexao = null;
+
     public ControllerContatos(ViewContatos viewContatos) {
         this.view = viewContatos;
         this.user = this.view.getContatoUser();
         this.listaConexoes = new ArrayList<>();
         this.business = BusinessContatos.getInstance();
+    }
+
+    public boolean iniciarServicosConexao() {
+        try {
+            this.sConexao = new ServicoConexao();
+            return true;
+        } catch (IOException ex) {
+            return false;
+        }
     }
 
     /**
@@ -94,6 +107,38 @@ public class ControllerContatos {
 
     public void manterRegistroLogin() {
         this.business.manterRegistroLogin(this.user);
+    }
+
+    private class ServicoConexao {
+
+        private final Thread t;
+
+        public ServicoConexao() throws IOException {
+            this.t = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    executar();
+                }
+            });
+            this.t.start();
+        }
+
+        private void executar() {
+            while (true) {
+                final Conexao conexao = business.receberConexao(user);
+
+                registrarNovaConexao(conexao);
+
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        new viewConversa(conexao).setVisible(true);
+                    }
+                });
+            }
+        }
+
     }
 
 }

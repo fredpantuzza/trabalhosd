@@ -39,6 +39,9 @@ public class ViewContatos extends javax.swing.JFrame {
         this.textChave.setText(this.user.getChave());
         inicializarListaContatos();
         atualizarButtonConversar();
+        if (!this.controller.iniciarServicosConexao()) {
+            this.cancelarInicializacaoTela();
+        }
     }
 
     /**
@@ -248,6 +251,10 @@ public class ViewContatos extends javax.swing.JFrame {
 
     public List<Contato> getListaContatos() {
         return this.tableContatosModel.getListaContatos();
+    }
+
+    private void cancelarInicializacaoTela() {
+        this.dispose();
     }
 
     class TableContatosModel implements TableModel {

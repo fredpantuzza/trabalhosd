@@ -43,4 +43,8 @@ public class BusinessConexao {
     public Mensagem receberMensagem(Conexao conexao) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public Conexao receberConexao(Contato user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

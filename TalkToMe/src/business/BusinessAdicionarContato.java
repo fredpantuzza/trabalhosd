@@ -14,18 +14,20 @@ import model.Contato;
 public class BusinessAdicionarContato {
 
     private static final String MSG_ERRO_CONTATO_NULL = "É preciso pesquisar um contato para confirmar a operação.";
-    private static final String MSG_ERRO_CONTATO_NAO_ENCONTRADO = "Não foi encontrado nenhum contato com esta chave.";
-
+    
     private static BusinessAdicionarContato instance = null;
-
-    private BusinessAdicionarContato() {
-    }
 
     public static BusinessAdicionarContato getInstance() {
         if (instance == null) {
             instance = new BusinessAdicionarContato();
         }
         return instance;
+    }
+
+    private final BusinessServidor businessServidor;
+
+    private BusinessAdicionarContato() {
+        this.businessServidor = BusinessServidor.getInstance();
     }
 
     public void confirmar(Contato contato) throws BusinessException {
@@ -35,7 +37,7 @@ public class BusinessAdicionarContato {
     }
 
     public Contato pesquisar(String chave) throws BusinessException {
-        throw new BusinessException(MSG_ERRO_CONTATO_NAO_ENCONTRADO);
+        return this.businessServidor.pesquisarContato(chave);
     }
 
 }

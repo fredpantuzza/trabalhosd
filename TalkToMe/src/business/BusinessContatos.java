@@ -131,4 +131,8 @@ public class BusinessContatos {
         this.repositoryContato.manterRegistroLogin(user);
     }
 
+    public Conexao receberConexao(Contato user) {
+        return this.businessConexao.receberConexao(user);
+    }
+
 }

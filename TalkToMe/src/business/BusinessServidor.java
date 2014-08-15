@@ -18,6 +18,7 @@ public class BusinessServidor {
     private static final String MSG_ERRO_SENHA_INVALIDA = "Chave ou senha inválida!";
     private static final String MSG_ERRO_SERVIDOR_OFFLINE = "Não foi possível contactar o servidor.";
     private static final String MSG_ERRO_CADASTRAR = "Não foi possível realizar o cadastro!";
+    private static final String MSG_ERRO_CONTATO_NAO_ENCONTRADO = "Não foi encontrado nenhum contato com esta chave.";
 
     private static BusinessServidor instance = null;
 
@@ -77,6 +78,11 @@ public class BusinessServidor {
      */
     public boolean manterListaContatos(List<Contato> listaContatos, Contato user) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Contato pesquisarContato(String chave) throws BusinessException {
+        //TODO: Implementar consulta... caso não encontre retorne erro.
+        throw new BusinessException(MSG_ERRO_CONTATO_NAO_ENCONTRADO);
     }
 
 }
