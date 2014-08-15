@@ -23,12 +23,29 @@ public class Connection {
     /** Nome do banco. */
     private static final String DBNAME = "chat";
     /** Nome de usuário. */
-    private static final String USERNAME = "";
+    private static final String USERNAME = "system";
     /** Senha do usuário. */
-    private static final String USERPASS = "";
+    private static final String USERPASS = "systempwd";
     
     /** Conexão com o banco. */
     private MongoClient connection;
+
+    /**
+     * Constrói objeto e conecta ao banco.
+     */
+    public Connection() {
+        this(true);
+    }
+
+    /**
+     * Constrói objeto.
+     * @param connect Se <tt>true</tt> já tenta conectar.
+     */
+    public Connection(boolean connect) {
+        if (connect) {
+            this.connect();
+        }
+    }
 
     /**
      * Inicia conexão com o banco.
@@ -62,5 +79,11 @@ public class Connection {
         DB database = this.connection.getDB(Connection.DBNAME);
         return database;
     }
-    
+
+    public static void tryDisconnect(Connection con) {
+        if (con != null) {
+            con.close();
+        }
+    }
+
 }

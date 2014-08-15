@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <display-name>Talk to Me</display-name>
+    <distributable/>
+    <servlet>
+        <servlet-name>InsertUserAction</servlet-name>
+        <servlet-class>net.InsertUserAction</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginAction</servlet-name>
+        <servlet-class>net.LoginAction</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetUserByIdAction</servlet-name>
+        <servlet-class>net.GetUserByIdAction</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetUserContactsByIdAction</servlet-name>
+        <servlet-class>net.GetUserContactsByIdAction</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InsertUserAction</servlet-name>
+        <url-pattern>/InsertUserAction</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginAction</servlet-name>
+        <url-pattern>/LoginAction</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetUserByIdAction</servlet-name>
+        <url-pattern>/GetUserByIdAction</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetUserContactsByIdAction</servlet-name>
+        <url-pattern>/GetUserContactsByIdAction</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+</web-app>

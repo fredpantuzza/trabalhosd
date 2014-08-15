@@ -4,6 +4,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import dto.DTO;
+import dto.validator.InvalidDTOException;
 
 /**
  * Manipulador padrão de objetos
@@ -11,6 +12,8 @@ import dto.DTO;
  * @param <P> O tipo de dados manipulado.
  */
 public abstract class DAOObject<P extends DTO> {
+    
+    public static final String DB_FIELD_ID = "_id";
     
     /** Descritor do banco de dados. */
     private final DB database;
@@ -45,6 +48,13 @@ public abstract class DAOObject<P extends DTO> {
      * @param dto O DTO com os dados.
      * @return Um DAO equivalente.
      */
-    protected abstract DBObject convertDTOToDAO(P dto);
+    protected abstract DBObject convertDTOToDAO(P dto) throws InvalidDTOException;
+    
+    /**
+     * Converte um Objeto DB para um DTO.
+     * @param dao Objeto DB.
+     * @return Um DTO com os dados.
+     */
+    protected abstract P convertDAOToDTO(DBObject dao);
     
 }
