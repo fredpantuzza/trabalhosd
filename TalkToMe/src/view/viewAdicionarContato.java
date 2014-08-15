@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package view;
+
+import business.BusinessException;
+import controller.ControllerAdicionarContato;
+import javax.swing.JOptionPane;
+import model.Contato;
 
 /**
  *
@@ -12,10 +16,14 @@ package view;
  */
 public class viewAdicionarContato extends javax.swing.JFrame {
 
+    private final ControllerAdicionarContato controller;
+
     /**
      * Creates new form viewAdicionarContato
+     * @param viewContatos
      */
-    public viewAdicionarContato() {
+    public viewAdicionarContato(ViewContatos viewContatos) {
+        this.controller = new ControllerAdicionarContato(this, viewContatos);
         initComponents();
     }
 
@@ -28,44 +36,60 @@ public class viewAdicionarContato extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        scrollTextInfo = new javax.swing.JScrollPane();
+        textInfo = new javax.swing.JTextArea();
+        labelChavePesquisa = new javax.swing.JLabel();
+        textChavePesquisa = new javax.swing.JTextField();
+        labelChave = new javax.swing.JLabel();
+        textChave = new javax.swing.JTextField();
+        buttonPesquisar = new javax.swing.JButton();
+        buttonConfirmar = new javax.swing.JButton();
+        labelNick = new javax.swing.JLabel();
+        textNick = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Digite a chave do contato que vc deseja adicionar e clique em pesquisar para conferir os dados deste contato. Para confirmar a operação clique em Confirmar.");
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        textInfo.setEditable(false);
+        textInfo.setColumns(20);
+        textInfo.setLineWrap(true);
+        textInfo.setRows(5);
+        textInfo.setText("Digite a chave do contato que vc deseja adicionar e clique em pesquisar para conferir os dados deste contato. Para confirmar a operação clique em Confirmar.");
+        textInfo.setWrapStyleWord(true);
+        scrollTextInfo.setViewportView(textInfo);
 
-        jLabel1.setText("Chave:");
+        labelChavePesquisa.setText("Chave:");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(204, 0, 0));
-        jLabel2.setText("Chave:");
+        labelChave.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        labelChave.setForeground(new java.awt.Color(204, 0, 0));
+        labelChave.setText("Chave:");
 
-        jTextField2.setEnabled(false);
+        textChave.setEnabled(false);
 
-        jButton1.setText("Pesquisar");
+        buttonPesquisar.setText("Pesquisar");
+        buttonPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPesquisarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Confirmar");
+        buttonConfirmar.setText("Confirmar");
+        buttonConfirmar.setEnabled(false);
+        buttonConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConfirmarActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(204, 0, 0));
-        jLabel3.setText("Nick:");
+        labelNick.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        labelNick.setForeground(new java.awt.Color(204, 0, 0));
+        labelNick.setText("Nick:");
 
-        jTextField3.setEnabled(false);
+        textNick.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,97 +99,100 @@ public class viewAdicionarContato extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(labelNick)
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField3)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(textNick)
+                            .addComponent(buttonConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(scrollTextInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(labelChavePesquisa)
+                            .addComponent(labelChave))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1))))
+                            .addComponent(textChave)
+                            .addComponent(buttonPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textChavePesquisa))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollTextInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelChavePesquisa)
+                    .addComponent(textChavePesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(buttonPesquisar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelChave)
+                    .addComponent(textChave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelNick)
+                    .addComponent(textNick, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonConfirmar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void buttonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPesquisarActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(viewAdicionarContato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(viewAdicionarContato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(viewAdicionarContato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(viewAdicionarContato.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            this.controller.pesquisar();
+            this.buttonConfirmar.setEnabled(true);
+        } catch (BusinessException ex) {
+            this.textChave.setText("");
+            this.textNick.setText("");
+            this.buttonConfirmar.setEnabled(false);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-        //</editor-fold>
+    }//GEN-LAST:event_buttonPesquisarActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new viewAdicionarContato().setVisible(true);
-            }
-        });
-    }
+    private void buttonConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfirmarActionPerformed
+        try {
+            this.controller.confirmar();
+        } catch (BusinessException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }//GEN-LAST:event_buttonConfirmarActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.controller.onWindowClosed();
+    }//GEN-LAST:event_formWindowClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JButton buttonConfirmar;
+    private javax.swing.JButton buttonPesquisar;
+    private javax.swing.JLabel labelChave;
+    private javax.swing.JLabel labelChavePesquisa;
+    private javax.swing.JLabel labelNick;
+    private javax.swing.JScrollPane scrollTextInfo;
+    private javax.swing.JTextField textChave;
+    private javax.swing.JTextField textChavePesquisa;
+    private javax.swing.JTextArea textInfo;
+    private javax.swing.JTextField textNick;
     // End of variables declaration//GEN-END:variables
+
+    public String getChavePesquisa() {
+        return this.textChavePesquisa.getText();
+    }
+
+    public void onConfirmado(String chave) {
+        JOptionPane.showMessageDialog(this, "O contato foi adicionado com sucesso!");
+    }
+
+    public void onPesquisadoComSucesso(Contato contato) {
+        this.textChave.setText(contato.getChave());
+        this.textNick.setText(contato.getNick());
+        JOptionPane.showMessageDialog(this, "O contato foi encontrado!");
+    }
 }

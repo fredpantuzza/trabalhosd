@@ -59,7 +59,7 @@
                       <Component id="buttonCadastrar" pref="200" max="32767" attributes="0"/>
                       <Component id="textChave" max="32767" attributes="0"/>
                       <Component id="textSenha" max="32767" attributes="0"/>
-                      <Component id="buttonConectar" alignment="0" pref="200" max="32767" attributes="0"/>
+                      <Component id="buttonLogin" alignment="0" pref="200" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -79,7 +79,7 @@
                       <Component id="textSenha" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="buttonConectar" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonLogin" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="buttonCadastrar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -102,12 +102,12 @@
             <Property name="text" type="java.lang.String" value="Senha:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="buttonConectar">
+        <Component class="javax.swing.JButton" name="buttonLogin">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Conectar"/>
+            <Property name="text" type="java.lang.String" value="Login"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonConectarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonLoginActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="buttonCadastrar">

@@ -28,10 +28,10 @@ public class ControllerLogin {
         this.businessLogin = BusinessLogin.getInstance();
     }
 
-    public void conectar() throws BusinessException {
+    public void login() throws BusinessException {
         String chave = this.view.getChave();
         String senha = this.view.getSenha();
-        final Contato contato = this.businessLogin.conectar(chave, senha);
+        final Contato contato = this.businessLogin.login(chave, senha);
 
         this.view.onConectadoComSucesso();
         

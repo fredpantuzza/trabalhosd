@@ -13,7 +13,6 @@ import model.Contato;
  */
 public class BusinessCadastro {
 
-    private static final String MSG_ERRO_CADASTRAR = "Não foi possível realizar o cadastro!";
     private static final String MSG_ERRO_SENHA_INCORRETA = "As senhas informadas são diferentes!";
     private static BusinessCadastro instance = null;
 
@@ -24,21 +23,45 @@ public class BusinessCadastro {
         return instance;
     }
 
+    private final BusinessRede businessRede;
+    private final BusinessServidor businessServidor;
+
     private BusinessCadastro() {
+        this.businessRede = BusinessRede.getInstance();
+        this.businessServidor = BusinessServidor.getInstance();
     }
 
+    /**
+     * Tenta efetuar o cadastro do usuário no servidor. Exceções podem ser
+     * lançadas se houverem falhas durante o cadastro.
+     *
+     * @param nick
+     * @param senha
+     * @return
+     * @throws BusinessException
+     */
     public Contato cadastrar(String nick, String senha) throws BusinessException {
-        //TODO: Isto é um teste. A verdadeira verificação deve ser implementada!
-        if ("".equals("")) {
-            return new Contato("000110045", senha, nick, null);
-        }
-        throw new BusinessException(MSG_ERRO_CADASTRAR);
+        return businessServidor.cadastrar(nick, senha);
     }
 
+    /**
+     * Retorna o IP atual do usuário.
+     *
+     * @return
+     */
     public String getMeuIPAtual() {
-        return "192.168.0.1";
+        return businessRede.getMeuIP();
     }
 
+    /**
+     * Verifica se a senha digitada durante o cadastro é uma senha válida. Caso
+     * as senhas digitadas nos campos "senha" e "confirmar senha" sejam
+     * diferentes, a senha será considerada inválida.
+     *
+     * @param senha
+     * @param confirmarSenha
+     * @throws BusinessException
+     */
     public void verificarSenha(String senha, String confirmarSenha) throws BusinessException {
         if (!senha.equals(confirmarSenha)) {
             throw new BusinessException(MSG_ERRO_SENHA_INCORRETA);

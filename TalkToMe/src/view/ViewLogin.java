@@ -38,7 +38,7 @@ public class ViewLogin extends javax.swing.JFrame {
         labelChave = new javax.swing.JLabel();
         textChave = new javax.swing.JTextField();
         labelSenha = new javax.swing.JLabel();
-        buttonConectar = new javax.swing.JButton();
+        buttonLogin = new javax.swing.JButton();
         buttonCadastrar = new javax.swing.JButton();
         textSenha = new javax.swing.JPasswordField();
 
@@ -52,10 +52,10 @@ public class ViewLogin extends javax.swing.JFrame {
         labelSenha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelSenha.setText("Senha:");
 
-        buttonConectar.setText("Conectar");
-        buttonConectar.addActionListener(new java.awt.event.ActionListener() {
+        buttonLogin.setText("Login");
+        buttonLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonConectarActionPerformed(evt);
+                buttonLoginActionPerformed(evt);
             }
         });
 
@@ -78,10 +78,9 @@ public class ViewLogin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(buttonCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                    .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(textChave)
-                        .addComponent(textSenha)
-                        .addComponent(buttonConectar, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
+                    .addComponent(textChave)
+                    .addComponent(textSenha)
+                    .addComponent(buttonLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelLoginLayout.setVerticalGroup(
@@ -96,7 +95,7 @@ public class ViewLogin extends javax.swing.JFrame {
                     .addComponent(labelSenha)
                     .addComponent(textSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonConectar)
+                .addComponent(buttonLogin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonCadastrar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -122,13 +121,13 @@ public class ViewLogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConectarActionPerformed
+    private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
         try {
-            this.controller.conectar();
+            this.controller.login();
         } catch (BusinessException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-    }//GEN-LAST:event_buttonConectarActionPerformed
+    }//GEN-LAST:event_buttonLoginActionPerformed
 
     private void buttonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCadastrarActionPerformed
         this.controller.cadastrar();
@@ -136,7 +135,7 @@ public class ViewLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonCadastrar;
-    private javax.swing.JButton buttonConectar;
+    private javax.swing.JButton buttonLogin;
     private javax.swing.JLabel labelChave;
     private javax.swing.JLabel labelSenha;
     private javax.swing.JPanel panelLogin;

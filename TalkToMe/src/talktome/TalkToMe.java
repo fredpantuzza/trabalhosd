@@ -7,6 +7,8 @@ package talktome;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import model.Contato;
+import view.ViewContatos;
 import view.ViewLogin;
 
 /**
@@ -40,7 +42,7 @@ public class TalkToMe {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ViewLogin().setVisible(true);
+                new ViewContatos(new Contato("chave", "senha", "nick", "lastIP")).setVisible(true);
             }
         });
     }

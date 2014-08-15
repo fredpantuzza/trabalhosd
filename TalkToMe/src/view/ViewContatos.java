@@ -5,9 +5,12 @@
  */
 package view;
 
+import business.BusinessException;
 import controller.ControllerContatos;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import model.Contato;
@@ -34,7 +37,8 @@ public class ViewContatos extends javax.swing.JFrame {
         initComponents();
         this.labelNick.setText(this.user.getNick());
         this.textChave.setText(this.user.getChave());
-        atualizarListaContatos();
+        inicializarListaContatos();
+        atualizarButtonConversar();
     }
 
     /**
@@ -55,6 +59,8 @@ public class ViewContatos extends javax.swing.JFrame {
         tableContatos = new javax.swing.JTable();
         buttonAdd = new javax.swing.JButton();
         buttonConversar = new javax.swing.JButton();
+        labelSincronizacao = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,11 +73,32 @@ public class ViewContatos extends javax.swing.JFrame {
         labelNick.setText(" ");
 
         tableContatos.setModel(tableContatosModel);
+        tableContatos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tableContatosMouseReleased(evt);
+            }
+        });
         scrollContatos.setViewportView(tableContatos);
 
         buttonAdd.setText("Adicionad contato");
+        buttonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAddActionPerformed(evt);
+            }
+        });
 
         buttonConversar.setText("Conversar");
+        buttonConversar.setEnabled(false);
+        buttonConversar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConversarActionPerformed(evt);
+            }
+        });
+
+        labelSincronizacao.setBackground(new java.awt.Color(255, 0, 0));
+        labelSincronizacao.setOpaque(true);
+
+        jLabel2.setText("Sincronização: ");
 
         javax.swing.GroupLayout panelContatosLayout = new javax.swing.GroupLayout(panelContatos);
         panelContatos.setLayout(panelContatosLayout);
@@ -81,19 +108,26 @@ public class ViewContatos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelContatosLayout.createSequentialGroup()
-                        .addComponent(labelBemVindo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelNick))
-                    .addGroup(panelContatosLayout.createSequentialGroup()
                         .addComponent(labelChave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textChave, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(panelContatosLayout.createSequentialGroup()
-                            .addComponent(buttonAdd)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(buttonConversar))
-                        .addComponent(scrollContatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(textChave, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelSincronizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelContatosLayout.createSequentialGroup()
+                        .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelContatosLayout.createSequentialGroup()
+                                .addComponent(labelBemVindo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labelNick))
+                            .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(panelContatosLayout.createSequentialGroup()
+                                    .addComponent(buttonAdd)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(buttonConversar))
+                                .addComponent(scrollContatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelContatosLayout.setVerticalGroup(
@@ -106,7 +140,9 @@ public class ViewContatos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelContatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelChave)
-                    .addComponent(textChave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textChave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelSincronizacao, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollContatos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -136,21 +172,71 @@ public class ViewContatos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
+        this.controller.adicionarContato();
+    }//GEN-LAST:event_buttonAddActionPerformed
+
+    private void buttonConversarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConversarActionPerformed
+        try {
+            this.controller.conversar();
+        } catch (BusinessException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }//GEN-LAST:event_buttonConversarActionPerformed
+
+    private void tableContatosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableContatosMouseReleased
+        this.atualizarButtonConversar();
+    }//GEN-LAST:event_tableContatosMouseReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonConversar;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel labelBemVindo;
     private javax.swing.JLabel labelChave;
     private javax.swing.JLabel labelNick;
+    private javax.swing.JLabel labelSincronizacao;
     private javax.swing.JPanel panelContatos;
     private javax.swing.JScrollPane scrollContatos;
     private javax.swing.JTable tableContatos;
     private javax.swing.JTextField textChave;
     // End of variables declaration//GEN-END:variables
 
-    private void atualizarListaContatos() {
-        this.controller.getListaContatos(this.tableContatosModel.getListaContatos());
+    private void inicializarListaContatos() {
+        this.controller.inicializarListaContatos(this.user);
         this.tableContatos.updateUI();
+    }
+
+    public void onContatoAdicionado(Contato contato) throws BusinessException {
+        this.controller.onContatoAdicionado(contato);
+
+        this.getListaContatos().add(contato);
+        this.controller.manterListaContatos();
+        this.tableContatos.updateUI();
+    }
+
+    private void atualizarButtonConversar() {
+        this.buttonConversar.setEnabled(this.tableContatos.getSelectedRowCount() == 1);
+    }
+
+    public void setSincronizacao(boolean sincronizado) {
+        this.labelSincronizacao.setBackground(sincronizado ? Color.GREEN : Color.RED);
+    }
+
+    public Contato getContatoUser() {
+        return this.user;
+    }
+
+    public Contato getContatoSelecionado() {
+        if (this.tableContatos.getSelectedRowCount() != 1) {
+            return null;
+        }
+        int index = this.tableContatos.getSelectedRow();
+        return this.tableContatosModel.getContato(index);
+    }
+
+    public List<Contato> getListaContatos() {
+        return this.tableContatosModel.getListaContatos();
     }
 
     class TableContatosModel implements TableModel {
@@ -213,6 +299,10 @@ public class ViewContatos extends javax.swing.JFrame {
 
         @Override
         public void removeTableModelListener(TableModelListener l) {
+        }
+
+        private Contato getContato(int index) {
+            return this.listaContatos.get(index);
         }
     }
 }
