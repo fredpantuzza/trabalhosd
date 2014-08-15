@@ -7,6 +7,7 @@ package business;
 
 import model.Conexao;
 import model.Contato;
+import model.Mensagem;
 
 /**
  *
@@ -35,4 +36,11 @@ public class BusinessConexao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void enviarMensagem(Conexao conexao, Mensagem msg) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Mensagem receberMensagem(Conexao conexao) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
