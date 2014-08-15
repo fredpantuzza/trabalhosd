@@ -92,4 +92,8 @@ public class ControllerContatos {
         this.business.finalizarConexao(conexao);
     }
 
+    public void manterRegistroLogin() {
+        this.business.manterRegistroLogin(this.user);
+    }
+
 }

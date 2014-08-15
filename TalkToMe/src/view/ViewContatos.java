@@ -196,6 +196,7 @@ public class ViewContatos extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         this.controller.manterListaContatos();
         this.controller.finalizarConexoes();
+        this.controller.manterRegistroLogin();
     }//GEN-LAST:event_formWindowClosed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

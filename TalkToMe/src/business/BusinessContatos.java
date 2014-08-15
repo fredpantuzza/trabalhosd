@@ -127,4 +127,8 @@ public class BusinessContatos {
         }
     }
 
+    public void manterRegistroLogin(Contato user) {
+        this.repositoryContato.manterRegistroLogin(user);
+    }
+
 }

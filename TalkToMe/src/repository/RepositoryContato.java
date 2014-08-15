@@ -112,4 +112,8 @@ public class RepositoryContato {
         return null;
     }
 
+    public void manterRegistroLogin(Contato user) {
+
+    }
+
 }
