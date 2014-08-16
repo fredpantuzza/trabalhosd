@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Thiago
  */
-public class Contato implements Serializable {
+public class Contato implements Serializable, Comparable {
 
     private String chave;
     private String senha;
@@ -79,6 +79,13 @@ public class Contato implements Serializable {
         int hash = 5;
         hash = 73 * hash + Objects.hashCode(this.chave);
         return hash;
+    }
+    
+    @Override
+    public int compareTo(Object o) {
+         Contato a = (Contato) o;
+         int compare = this.getNick().compareToIgnoreCase(a.getNick());
+         return compare;
     }
 
 }

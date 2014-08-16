@@ -5,6 +5,8 @@
  */
 package business;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import model.Conexao;
 import model.Contato;
@@ -110,7 +112,24 @@ public class BusinessContatos {
      * @return
      */
     private List<Contato> mergeListaContato(List<Contato> listaContatosLocal, List<Contato> listaContatosServidor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         if (listaContatosServidor == null) {
+            return listaContatosLocal;
+        } else {
+            Iterator i = listaContatosServidor.iterator();
+            List<Contato> mergedListaContatos = null;
+
+            mergedListaContatos = listaContatosLocal;
+
+            while (i.hasNext()) {
+                Contato c = (Contato) i.next();
+                if (!mergedListaContatos.contains(c)) {
+                    mergedListaContatos.add(c);
+                }
+            }
+            
+            Collections.sort(mergedListaContatos);
+            return mergedListaContatos;
+        }
     }
 
     private void manterListaContatosLocal(List<Contato> listaContatos, Contato user) {
