@@ -18,6 +18,14 @@
         <servlet-name>GetUserContactsByIdAction</servlet-name>
         <servlet-class>net.GetUserContactsByIdAction</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddUserContactAction</servlet-name>
+        <servlet-class>net.AddUserContactAction</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ReplaceUserContactsAction</servlet-name>
+        <servlet-class>net.ReplaceUserContactsAction</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>InsertUserAction</servlet-name>
         <url-pattern>/InsertUserAction</url-pattern>
@@ -33,6 +41,14 @@
     <servlet-mapping>
         <servlet-name>GetUserContactsByIdAction</servlet-name>
         <url-pattern>/GetUserContactsByIdAction</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddUserContactAction</servlet-name>
+        <url-pattern>/AddUserContactAction</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ReplaceUserContactsAction</servlet-name>
+        <url-pattern>/ReplaceUserContactsAction</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -14,10 +14,17 @@ import java.util.Objects;
  */
 public class Contato implements Serializable {
 
-    private final String chave;
-    private final String senha;
-    private final String nick;
-    private final String lastIP;
+    private String chave;
+    private String senha;
+    private String nick;
+    private String lastIP;
+
+    public Contato() {
+        this.chave = null;
+        this.senha = null;
+        this.nick = null;
+        this.lastIP = null;
+    }
 
     public Contato(String chave, String senha, String nick, String lastIP) {
         this.chave = chave;
@@ -27,11 +34,35 @@ public class Contato implements Serializable {
     }
 
     public String getChave() {
-        return this.chave;
+        return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getNick() {
-        return this.nick;
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+
+    public String getLastIP() {
+        return lastIP;
+    }
+
+    public void setLastIP(String lastIP) {
+        this.lastIP = lastIP;
     }
 
     @Override

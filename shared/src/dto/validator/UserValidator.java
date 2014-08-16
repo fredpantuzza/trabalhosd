@@ -16,7 +16,7 @@ public class UserValidator implements Validator<UserDTO> {
     public boolean isValid(UserDTO dto) {
         boolean valid = true;
         
-        valid &= !this.isEmpty(dto.getNick());
+        valid &= !this.isEmpty(dto.getId());
         valid &= !this.isEmpty(dto.getPassword());
         
         return valid;

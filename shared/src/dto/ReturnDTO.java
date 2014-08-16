@@ -18,7 +18,7 @@ public class ReturnDTO implements DTO {
 
     @Override
     public String getId() {
-        return result.getValue();
+        return result.name();
     }
 
     public ReturnDTO(ActionResult result) {

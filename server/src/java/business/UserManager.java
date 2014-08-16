@@ -17,8 +17,7 @@ public class UserManager {
         try {
             con = new Connection();
             
-            UserDAO userDAO = new UserDAO(con.getDatabase());
-            return userDAO.getUser(id);
+            return new UserDAO(con.getDatabase()).getUser(id);
         } catch (Exception e) {
             throw e;
         } finally {
@@ -31,8 +30,7 @@ public class UserManager {
         try {
             con = new Connection();
             
-            UserDAO userDAO = new UserDAO(con.getDatabase());
-            return userDAO.getUserContacts(id);
+            return new UserDAO(con.getDatabase()).getUserContacts(id);
         } catch (Exception e) {
             throw e;
         } finally {
@@ -59,12 +57,38 @@ public class UserManager {
         }
     }
     
-    public boolean login(String nick, String pass) throws Exception {
+    public boolean addUserContact(String userId, String contactId) throws Exception {
         Connection con = null;
         try {
             con = new Connection();
             
-            return new UserDAO(con.getDatabase()).login(nick, pass);
+            return new UserDAO(con.getDatabase()).addContact(userId, contactId);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            Connection.tryDisconnect(con);
+        }
+    }
+    
+    public boolean replaceUserContacts(String userId, List<String> contactsIds) throws Exception {
+        Connection con = null;
+        try {
+            con = new Connection();
+            
+            return new UserDAO(con.getDatabase()).replaceContacts(userId, contactsIds);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            Connection.tryDisconnect(con);
+        }
+    }
+    
+    public UserDTO login(String id, String pass) throws Exception {
+        Connection con = null;
+        try {
+            con = new Connection();
+            
+            return new UserDAO(con.getDatabase()).login(id, pass);
         } catch (Exception e) {
             throw e;
         } finally {

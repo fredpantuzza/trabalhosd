@@ -40,7 +40,7 @@ public class UserDAO extends DAOObject<UserDTO> {
      * @return O DTO do usuário.
      */
     public UserDTO getUser(String id) {
-        DBObject findObj = new BasicDBObject("_id", new ObjectId(id));
+        DBObject findObj = new BasicDBObject(DAOObject.DB_FIELD_ID, new ObjectId(id));
         findObj = this.getCollection(UserDAO.COLLECTION_NAME).findOne(findObj);
         if (findObj != null) {
             return this.convertDAOToDTO(findObj);
@@ -65,10 +65,12 @@ public class UserDAO extends DAOObject<UserDTO> {
      */
     public List<UserDTO> getUserContacts(UserDTO user) {
         List<UserDTO> contacts = new ArrayList<UserDTO>();
-        for (String userId : user.getContacts()) {
-            UserDTO contact = this.getUser(userId);
-            if (contact != null) {
-                contacts.add(contact);
+        if (user.getContacts() != null) {
+            for (String userId : user.getContacts()) {
+                UserDTO contact = this.getUser(userId);
+                if (contact != null) {
+                    contacts.add(contact);
+                }
             }
         }
         return contacts;
@@ -76,14 +78,18 @@ public class UserDAO extends DAOObject<UserDTO> {
     
     /**
      * Verifica nick e senha de um usuário.
-     * @param nick Nick.
+     * @param id Id.
      * @param pass Senha.
      * @return Resultado da verificação.
      * @throws Exception Caso ocorra algum erro.
      */
-    public boolean login(String nick, String pass) throws Exception {
-        DBObject doc = this.convertDTOToDAO(new UserDTO(nick, pass, null));
-        return this.getCollection(UserDAO.COLLECTION_NAME).findOne(doc) != null;
+    public UserDTO login(String id, String pass) throws Exception {
+        DBObject doc = this.convertDTOToDAO(new UserDTO(id, null, pass, null, null));
+        doc = this.getCollection(UserDAO.COLLECTION_NAME).findOne(doc);
+        if (doc != null) {
+            return this.convertDAOToDTO(doc);
+        }
+        return null;
     }
     
     /**
@@ -93,8 +99,98 @@ public class UserDAO extends DAOObject<UserDTO> {
     public ObjectId insert(UserDTO user) throws Exception {
         DBObject doc = this.convertDTOToDAO(user);
         WriteResult result = this.getCollection(UserDAO.COLLECTION_NAME).insert(doc);
-        // TODO: lançar exceção em caso de erro
-        return (ObjectId) doc.get("_id");
+        
+        return (ObjectId) doc.get(DAOObject.DB_FIELD_ID);
+    }
+    
+    /**
+     * Adiciona um contato a um usuário (o contato também recebe como contato o usúario).
+     * @param userId Id do usuário.
+     * @param contactId Id do contato.
+     * @return O resultado da operação.
+     */
+    public boolean addContact(String userId, String contactId) {
+        return this.addContactToUser(userId, contactId) && this.addContactToUser(contactId, userId);
+    }
+    
+    /**
+     * Remove um contato de um usuário.
+     * @param userId Id do usuário.
+     * @param contactId Id do contato.
+     * @return O resultado da operação.
+     */
+    public boolean removeContact(String userId, String contactId) {
+        return this.removeContactFromUser(userId, contactId) && this.removeContactFromUser(contactId, userId);
+    }
+    
+    /**
+     * Substitui todos os contatos de um usuário.
+     * @param userId Id do usuário.
+     * @param contactsIds Novos contatos.
+     * @return O resultado da operação.
+     */
+    public boolean replaceContacts(String userId, List<String> contactsIds) {
+        UserDTO userDTO = this.getUser(userId);
+        
+        // remove contatos atuais
+        for (String contactId : userDTO.getContacts()) {
+            this.removeContactFromUser(userId, contactId);
+        }
+        
+        // adiciona novos contatos
+        for (String contactId : contactsIds) {
+            this.addContactToUser(userId, contactId);
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Adiciona um contato a um usuário.
+     * @param userId Id do usuário.
+     * @param contactId Id do contato.
+     * @return O resultado da operação.
+     */
+    private boolean addContactToUser(String userId, String contactId) {
+        DBObject userObj = new BasicDBObject(DAOObject.DB_FIELD_ID, new ObjectId(userId));
+        userObj = this.getCollection(UserDAO.COLLECTION_NAME).findOne(userObj);
+        
+        List<String> contacts = new ArrayList<String>();
+        if (userObj.get(UserDAO.DB_FIELD_CONTACTS) instanceof List) {
+            contacts = (List) userObj.get(UserDAO.DB_FIELD_CONTACTS);
+        }
+        
+        // adiciona contato à lista
+        contacts.add(contactId);
+        userObj.put(UserDAO.DB_FIELD_CONTACTS, contacts);
+        
+        WriteResult result = this.getCollection(UserDAO.COLLECTION_NAME).save(userObj);
+        System.out.println(result.getN());
+        return result.getN() > 0;
+    }
+    
+    /**
+     * Remove um contato de um usuário.
+     * @param userId Id do usuário.
+     * @param contactId Id do contato.
+     * @return O resultado da operação.
+     */
+    private boolean removeContactFromUser(String userId, String contactId) {
+        DBObject userObj = new BasicDBObject(DAOObject.DB_FIELD_ID, new ObjectId(userId));
+        userObj = this.getCollection(UserDAO.COLLECTION_NAME).findOne(userObj);
+        
+        List<String> contacts = new ArrayList<String>();
+        if (userObj.get(UserDAO.DB_FIELD_CONTACTS) instanceof List) {
+            contacts = (List) userObj.get(UserDAO.DB_FIELD_CONTACTS);
+        }
+        
+        // adiciona contato à lista
+        contacts.remove(contactId);
+        userObj.put(UserDAO.DB_FIELD_CONTACTS, contacts);
+        
+        WriteResult result = this.getCollection(UserDAO.COLLECTION_NAME).save(userObj);
+        System.out.println(result.getN());
+        return result.getN() > 0;
     }
 
     @Override
@@ -105,7 +201,7 @@ public class UserDAO extends DAOObject<UserDTO> {
 
         BasicDBObjectBuilder obj = BasicDBObjectBuilder.start();
         if (dto.getId() != null) {
-            obj.add(DAOObject.DB_FIELD_ID, dto.getId());
+            obj.add(DAOObject.DB_FIELD_ID, new ObjectId(dto.getId()));
         }
         if (dto.getNick() != null) {
             obj.add(UserDAO.DB_FIELD_NICK, dto.getNick());

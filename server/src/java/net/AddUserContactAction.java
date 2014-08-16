@@ -5,6 +5,7 @@
 package net;
 
 import business.UserManager;
+import common.ActionResult;
 import common.ObjectSerialization;
 import dto.ReturnDTO;
 import java.io.IOException;
@@ -13,15 +14,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import common.ActionResult;
-import dto.UserDTO;
-import dto.UserReturnDTO;
 
 /**
  *
  * @author frederico
  */
-public class LoginAction extends HttpServlet {
+public class AddUserContactAction extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -40,16 +38,15 @@ public class LoginAction extends HttpServlet {
         
         ReturnDTO returnDTO = null;
         try {
-            String id = request.getParameter("id");
-            String pass = request.getParameter("pass");
+            String userId    = request.getParameter("id");
+            String contactId = request.getParameter("contactId");
             
-            UserDTO user = new UserManager().login(id, pass);
-            ActionResult result = user != null ? ActionResult.SUCCESS : ActionResult.ERROR;
-            returnDTO = new UserReturnDTO(user, result);
+            ActionResult result = new UserManager().addUserContact(userId, contactId) ? ActionResult.SUCCESS : ActionResult.ERROR;
+            returnDTO = new ReturnDTO(result);
         } catch (Exception ex) {
-            returnDTO = new UserReturnDTO(null, ActionResult.ERROR, ex.getMessage());
-        } finally {          
-            out.print(ObjectSerialization.toString(returnDTO));  
+            returnDTO = new ReturnDTO(ActionResult.ERROR, ex.getMessage());
+        } finally {
+            out.print(ObjectSerialization.toString(returnDTO));
             out.close();
         }
     }
