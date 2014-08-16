@@ -5,13 +5,14 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Thiago
  */
-public class Mensagem {
+public class Mensagem implements Serializable {
 
     private Contato remetente;
     private String mensagem;

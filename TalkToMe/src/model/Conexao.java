@@ -6,9 +6,8 @@
 package model;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  *
@@ -16,23 +15,41 @@ import java.net.Socket;
  */
 public class Conexao {
 
+    public static final int DEFAULT_SERVER_PORT = 8089;
+    
     private Contato user;
     private Contato destino;
-    private Socket socket;
+    private Socket clientSocket;
 
-    public Contato getContatoUser() {
-        return this.user;
+    public Conexao(Contato user, Contato destino, String clientIp) throws UnknownHostException, IOException {
+        this.user = user;
+        this.destino = destino;
+        this.clientSocket = new Socket(clientIp, Conexao.DEFAULT_SERVER_PORT);
     }
 
-    public Contato getContatoDestino() {
-        return this.destino;
+    public Conexao(Contato user, Socket clientSocket) {
+        this.user = user;
+        this.clientSocket = clientSocket;
     }
 
-    public InputStream getInputStream() throws IOException {
-        return this.socket.getInputStream();
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 
-    public OutputStream getOutputStream() throws IOException {
-        return this.socket.getOutputStream();
+    public Contato getUser() {
+        return user;
     }
+
+    public void setUser(Contato user) {
+        this.user = user;
+    }
+
+    public Contato getDestino() {
+        return destino;
+    }
+
+    public void setDestino(Contato destino) {
+        this.destino = destino;
+    }
+
 }

@@ -5,6 +5,11 @@
  */
 package business;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Thiago
@@ -24,6 +29,11 @@ public class BusinessRede {
     }
     
     public String getMeuIP(){
-        return "192.168.0.1:6340";
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(BusinessRede.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return InetAddress.getLoopbackAddress().getHostAddress();
     }
 }

@@ -26,6 +26,10 @@
         <servlet-name>ReplaceUserContactsAction</servlet-name>
         <servlet-class>net.ReplaceUserContactsAction</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateUserIp</servlet-name>
+        <servlet-class>net.UpdateUserIp</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>InsertUserAction</servlet-name>
         <url-pattern>/InsertUserAction</url-pattern>
@@ -49,6 +53,10 @@
     <servlet-mapping>
         <servlet-name>ReplaceUserContactsAction</servlet-name>
         <url-pattern>/ReplaceUserContactsAction</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateUserIp</servlet-name>
+        <url-pattern>/UpdateUserIp</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

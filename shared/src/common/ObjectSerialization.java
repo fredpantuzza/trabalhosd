@@ -11,6 +11,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.bind.DatatypeConverter;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 /**
  *
@@ -25,7 +28,8 @@ public final class ObjectSerialization {
             oos = new ObjectOutputStream(baos);
             oos.writeObject(obj);
             oos.close();
-            return new String(baos.toByteArray());
+            
+            return DatatypeConverter.printBase64Binary(baos.toByteArray());
         } catch (Exception ex) {
             Logger.getLogger(ObjectSerialization.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -41,7 +45,8 @@ public final class ObjectSerialization {
     
     public static Serializable fromString(String serObj) {
         try {
-            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(serObj.getBytes()));
+            byte [] data = DatatypeConverter.parseBase64Binary(serObj);
+            ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data));
             Serializable o = (Serializable) ois.readObject();
             ois.close();
             

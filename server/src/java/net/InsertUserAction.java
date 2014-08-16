@@ -41,7 +41,7 @@ public class InsertUserAction extends HttpServlet {
         try {
             String nick = request.getParameter("nick");
             String pass = request.getParameter("pass");
-            String ip   = request.getParameter("ip");
+            String ip   = request.getRemoteAddr();
             
             UserDTO user = new UserManager().insertUser(nick, pass, ip);
             returnDTO = new UserReturnDTO(user, ActionResult.SUCCESS);

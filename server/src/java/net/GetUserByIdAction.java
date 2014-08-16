@@ -47,6 +47,7 @@ public class GetUserByIdAction extends HttpServlet {
             returnDTO = new UserReturnDTO(null, ActionResult.ERROR, ex.getMessage());
         } finally {
             out.print(ObjectSerialization.toString(returnDTO));
+            out.close();
         }
     }
 

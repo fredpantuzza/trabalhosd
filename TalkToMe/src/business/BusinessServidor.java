@@ -107,7 +107,7 @@ public class BusinessServidor {
     }
 
     public Contato cadastrar(String nick, String senha) throws BusinessException {
-        String parameters = "nick=" + nick + "&pass" + senha;
+        String parameters = "nick=" + nick + "&pass=" + senha;
         try {
             String response = this.sendPost(BusinessServidor.SERVER_BASE_URL, BusinessServidor.SERVER_INSERT_USER_ACTION, parameters);
             UserReturnDTO returnDTO = (UserReturnDTO) ObjectSerialization.fromString(response);

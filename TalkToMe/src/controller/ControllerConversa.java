@@ -8,8 +8,6 @@ package controller;
 import business.BusinessConversa;
 import business.BusinessException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,7 +50,7 @@ public class ControllerConversa {
 
     public void enviarMensagem(String mensagem) {
         proximoMsgID();
-        Mensagem msg = new Mensagem(this.conexao.getContatoUser(), mensagem, currentID, new Date());
+        Mensagem msg = new Mensagem(this.conexao.getUser(), mensagem, currentID, new Date());
         this.listaMensagens.add(msg);
         this.sEscrita.enviarMensagem(msg);
     }
@@ -68,13 +66,9 @@ public class ControllerConversa {
 
     private class ServicoLeitura {
 
-        private final InputStream stream;
-
         private final Thread t;
 
         public ServicoLeitura() throws IOException {
-            this.stream = conexao.getInputStream();
-
             this.t = new Thread(new Runnable() {
 
                 @Override
@@ -101,8 +95,6 @@ public class ControllerConversa {
 
     private class ServicoEscrita {
 
-        private final OutputStream stream;
-
         private final Thread t;
 
         private final Object lockEscrita = new Object();
@@ -110,8 +102,6 @@ public class ControllerConversa {
         private List<Mensagem> listaMensagens = new ArrayList<>();
 
         public ServicoEscrita() throws IOException {
-            this.stream = conexao.getOutputStream();
-
             this.t = new Thread(new Runnable() {
 
                 @Override

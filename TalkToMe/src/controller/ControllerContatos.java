@@ -9,7 +9,6 @@ import business.BusinessContatos;
 import business.BusinessException;
 import java.awt.EventQueue;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import model.Conexao;

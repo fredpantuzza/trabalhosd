@@ -104,6 +104,23 @@ public class UserDAO extends DAOObject<UserDTO> {
     }
     
     /**
+     * Atualiza o IP de um usuário.
+     * @param userId Id do usuário.
+     * @param newIp Novo IP.
+     * @return O resultado da operação.
+     */
+    public boolean updateIp(String userId, String newIp) {
+        DBObject userObj = new BasicDBObject(DAOObject.DB_FIELD_ID, new ObjectId(userId));
+        userObj = this.getCollection(UserDAO.COLLECTION_NAME).findOne(userObj);
+        
+        userObj.put(UserDAO.DB_FIELD_LAST_IP, newIp);
+        
+        WriteResult result = this.getCollection(UserDAO.COLLECTION_NAME).save(userObj);
+        System.out.println(result.getN());
+        return result.getN() > 0;
+    }
+    
+    /**
      * Adiciona um contato a um usuário (o contato também recebe como contato o usúario).
      * @param userId Id do usuário.
      * @param contactId Id do contato.
@@ -225,8 +242,8 @@ public class UserDAO extends DAOObject<UserDTO> {
         String lastIp         = null;
         List<String> contacts = null;
         
-        if (dao.get(DAOObject.DB_FIELD_ID) instanceof String) {
-            id       = (String) dao.get(DAOObject.DB_FIELD_ID);
+        if (dao.get(DAOObject.DB_FIELD_ID) instanceof ObjectId) {
+            id       = ((ObjectId) dao.get(DAOObject.DB_FIELD_ID)).toString();
         }
         if (dao.get(UserDAO.DB_FIELD_NICK) instanceof String) {
             nick     = (String) dao.get(UserDAO.DB_FIELD_NICK);
@@ -235,7 +252,12 @@ public class UserDAO extends DAOObject<UserDTO> {
             lastIp   = (String) dao.get(UserDAO.DB_FIELD_LAST_IP);
         }
         if (dao.get(UserDAO.DB_FIELD_CONTACTS) instanceof List) {
-            contacts = (List) dao.get(UserDAO.DB_FIELD_CONTACTS);
+            contacts = new ArrayList<String>();
+            for (Object contact : (List) dao.get(UserDAO.DB_FIELD_CONTACTS)) {
+                if (contact instanceof String) {
+                    contacts.add((String) contact);
+                }
+            }
         }
         
         return new UserDTO(id, nick, null, lastIp, contacts);

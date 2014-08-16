@@ -57,6 +57,20 @@ public class UserManager {
         }
     }
     
+    public boolean updateUserIp(String userId, String ip) throws Exception {
+        Connection con = null;
+        try {
+            con = new Connection();
+            
+            UserDAO userDAO = new UserDAO(con.getDatabase());
+            return userDAO.updateIp(userId, ip);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            Connection.tryDisconnect(con);
+        }
+    }
+    
     public boolean addUserContact(String userId, String contactId) throws Exception {
         Connection con = null;
         try {

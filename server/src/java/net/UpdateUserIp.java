@@ -5,23 +5,21 @@
 package net;
 
 import business.UserManager;
+import common.ActionResult;
 import common.ObjectSerialization;
-import dto.UserDTO;
-import dto.UserListReturnDTO;
+import dto.ReturnDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import common.ActionResult;
 
 /**
  *
  * @author frederico
  */
-public class GetUserContactsByIdAction extends HttpServlet {
+public class UpdateUserIp extends HttpServlet {
 
     /**
      * Processes requests for both HTTP
@@ -38,14 +36,15 @@ public class GetUserContactsByIdAction extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        UserListReturnDTO returnDTO = null;
+        ReturnDTO returnDTO = null;
         try {
             String id = request.getParameter("id");
+            String ip = request.getRemoteAddr();
             
-            List<UserDTO> user = new UserManager().findUserContactsById(id);
-            returnDTO = new UserListReturnDTO(user, ActionResult.SUCCESS);
+            ActionResult result = new UserManager().updateUserIp(id, ip) ? ActionResult.SUCCESS : ActionResult.ERROR;
+            returnDTO = new ReturnDTO(result);
         } catch (Exception ex) {
-            returnDTO = new UserListReturnDTO(null, ActionResult.ERROR, ex.getMessage());
+            returnDTO = new ReturnDTO(ActionResult.ERROR, ex.getMessage());
         } finally {
             out.print(ObjectSerialization.toString(returnDTO));
             out.close();

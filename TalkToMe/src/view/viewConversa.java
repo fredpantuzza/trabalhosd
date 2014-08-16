@@ -28,8 +28,8 @@ public class viewConversa extends javax.swing.JFrame {
     public viewConversa(Conexao conexao) {
         this.conexao = conexao;
         initComponents();
-        this.textChaveContato.setText(conexao.getContatoDestino().getChave());
-        this.textNickContato.setText(conexao.getContatoDestino().getNick());
+        this.textChaveContato.setText(conexao.getDestino().getChave());
+        this.textNickContato.setText(conexao.getDestino().getNick());
         this.controller = new ControllerConversa(this, this.conexao);
         if (!this.controller.iniciarServicosLeituraEscrita()) {
             this.cancelarInicializacaoTela();
@@ -129,6 +129,7 @@ public class viewConversa extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEnviarActionPerformed
