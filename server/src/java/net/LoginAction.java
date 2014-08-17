@@ -40,10 +40,11 @@ public class LoginAction extends HttpServlet {
         
         ReturnDTO returnDTO = null;
         try {
-            String id = request.getParameter("id");
+            String id   = request.getParameter("id");
             String pass = request.getParameter("pass");
+            String ip   = request.getRemoteAddr();
             
-            UserDTO user = new UserManager().login(id, pass);
+            UserDTO user = new UserManager().login(id, pass, ip);
             ActionResult result = user != null ? ActionResult.SUCCESS : ActionResult.ERROR;
             returnDTO = new UserReturnDTO(user, result);
         } catch (Exception ex) {

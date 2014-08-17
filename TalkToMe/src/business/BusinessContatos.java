@@ -150,8 +150,12 @@ public class BusinessContatos {
         this.repositoryContato.manterRegistroLogin(user);
     }
 
-    public Conexao receberConexao(Contato user) {
+    public Conexao receberConexao(Contato user) throws BusinessException {
         return this.businessConexao.receberConexao(user);
+    }
+    
+    public void enviarAck(Contato user) throws BusinessException  {
+        this.businessServidor.enviarAck(user);
     }
 
 }

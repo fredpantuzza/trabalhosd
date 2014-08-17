@@ -25,9 +25,6 @@ public class ViewCadastro extends javax.swing.JFrame {
     public ViewCadastro(ViewLogin viewLogin) {
         this.controller = new ControllerCadastro(this, viewLogin);
         initComponents();
-
-        String ip = this.controller.getIP();
-        this.textIP.setText(ip);
     }
 
     /**
@@ -40,7 +37,6 @@ public class ViewCadastro extends javax.swing.JFrame {
     private void initComponents() {
 
         panelCadastro = new javax.swing.JPanel();
-        textIP = new javax.swing.JTextField();
         buttonConfirmarCadastro = new javax.swing.JButton();
         labelNick = new javax.swing.JLabel();
         textNick = new javax.swing.JTextField();
@@ -48,7 +44,6 @@ public class ViewCadastro extends javax.swing.JFrame {
         textSenha = new javax.swing.JPasswordField();
         labelConfirmarSenha = new javax.swing.JLabel();
         textConfirmarSenha = new javax.swing.JPasswordField();
-        labelIP = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro");
@@ -58,8 +53,6 @@ public class ViewCadastro extends javax.swing.JFrame {
                 formWindowClosed(evt);
             }
         });
-
-        textIP.setEnabled(false);
 
         buttonConfirmarCadastro.setText("Confirmar cadastro");
         buttonConfirmarCadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -77,9 +70,6 @@ public class ViewCadastro extends javax.swing.JFrame {
         labelConfirmarSenha.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelConfirmarSenha.setText("Confirmar senha:");
 
-        labelIP.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        labelIP.setText("Meu IP atual:");
-
         javax.swing.GroupLayout panelCadastroLayout = new javax.swing.GroupLayout(panelCadastro);
         panelCadastro.setLayout(panelCadastroLayout);
         panelCadastroLayout.setHorizontalGroup(
@@ -89,15 +79,13 @@ public class ViewCadastro extends javax.swing.JFrame {
                 .addGroup(panelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(labelNick, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelConfirmarSenha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelIP, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelConfirmarSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(buttonConfirmarCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonConfirmarCadastro, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                     .addComponent(textConfirmarSenha)
                     .addComponent(textSenha)
-                    .addComponent(textNick)
-                    .addComponent(textIP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textNick))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelCadastroLayout.setVerticalGroup(
@@ -115,10 +103,6 @@ public class ViewCadastro extends javax.swing.JFrame {
                 .addGroup(panelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelConfirmarSenha)
                     .addComponent(textConfirmarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelCadastroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelIP)
-                    .addComponent(textIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonConfirmarCadastro)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -160,12 +144,10 @@ public class ViewCadastro extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonConfirmarCadastro;
     private javax.swing.JLabel labelConfirmarSenha;
-    private javax.swing.JLabel labelIP;
     private javax.swing.JLabel labelNick;
     private javax.swing.JLabel labelSenha;
     private javax.swing.JPanel panelCadastro;
     private javax.swing.JPasswordField textConfirmarSenha;
-    private javax.swing.JTextField textIP;
     private javax.swing.JTextField textNick;
     private javax.swing.JPasswordField textSenha;
     // End of variables declaration//GEN-END:variables
@@ -180,10 +162,6 @@ public class ViewCadastro extends javax.swing.JFrame {
 
     public String getConfirmarSenha() {
         return String.copyValueOf(this.textConfirmarSenha.getPassword());
-    }
-
-    public String getIP() {
-        return this.textIP.getText();
     }
 
     public void onCadastradoComSucesso(String chave) {

@@ -56,16 +56,14 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="labelNick" alignment="0" max="32767" attributes="0"/>
                       <Component id="labelSenha" alignment="0" max="32767" attributes="0"/>
-                      <Component id="labelConfirmarSenha" alignment="0" max="32767" attributes="0"/>
-                      <Component id="labelIP" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                      <Component id="labelConfirmarSenha" alignment="0" pref="100" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="buttonConfirmarCadastro" max="32767" attributes="0"/>
+                      <Component id="buttonConfirmarCadastro" pref="200" max="32767" attributes="0"/>
                       <Component id="textConfirmarSenha" alignment="0" max="32767" attributes="0"/>
                       <Component id="textSenha" alignment="0" max="32767" attributes="0"/>
                       <Component id="textNick" alignment="0" max="32767" attributes="0"/>
-                      <Component id="textIP" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -90,11 +88,6 @@
                       <Component id="textConfirmarSenha" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelIP" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textIP" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="buttonConfirmarCadastro" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -102,11 +95,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JTextField" name="textIP">
-          <Properties>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="buttonConfirmarCadastro">
           <Properties>
             <Property name="text" type="java.lang.String" value="Confirmar cadastro"/>
@@ -138,12 +126,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="textConfirmarSenha">
-        </Component>
-        <Component class="javax.swing.JLabel" name="labelIP">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="text" type="java.lang.String" value="Meu IP atual:"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>

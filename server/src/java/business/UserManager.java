@@ -57,7 +57,7 @@ public class UserManager {
         }
     }
     
-    public boolean updateUserIp(String userId, String ip) throws Exception {
+    public UserDTO updateUserIp(String userId, String ip) throws Exception {
         Connection con = null;
         try {
             con = new Connection();
@@ -97,12 +97,16 @@ public class UserManager {
         }
     }
     
-    public UserDTO login(String id, String pass) throws Exception {
+    public UserDTO login(String id, String pass, String ip) throws Exception {
         Connection con = null;
         try {
             con = new Connection();
             
-            return new UserDAO(con.getDatabase()).login(id, pass);
+            UserDTO user = new UserDAO(con.getDatabase()).login(id, pass);
+            if (user != null) {
+                this.updateUserIp(user.getId(), ip);
+            }
+            return user;
         } catch (Exception e) {
             throw e;
         } finally {

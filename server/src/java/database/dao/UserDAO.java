@@ -109,15 +109,17 @@ public class UserDAO extends DAOObject<UserDTO> {
      * @param newIp Novo IP.
      * @return O resultado da operação.
      */
-    public boolean updateIp(String userId, String newIp) {
+    public UserDTO updateIp(String userId, String newIp) {
         DBObject userObj = new BasicDBObject(DAOObject.DB_FIELD_ID, new ObjectId(userId));
         userObj = this.getCollection(UserDAO.COLLECTION_NAME).findOne(userObj);
         
         userObj.put(UserDAO.DB_FIELD_LAST_IP, newIp);
         
         WriteResult result = this.getCollection(UserDAO.COLLECTION_NAME).save(userObj);
-        System.out.println(result.getN());
-        return result.getN() > 0;
+        if (result.getN() > 0) {
+            return this.convertDAOToDTO(userObj);
+        }
+        return null;
     }
     
     /**
@@ -182,7 +184,6 @@ public class UserDAO extends DAOObject<UserDTO> {
         userObj.put(UserDAO.DB_FIELD_CONTACTS, contacts);
         
         WriteResult result = this.getCollection(UserDAO.COLLECTION_NAME).save(userObj);
-        System.out.println(result.getN());
         return result.getN() > 0;
     }
     
@@ -206,7 +207,6 @@ public class UserDAO extends DAOObject<UserDTO> {
         userObj.put(UserDAO.DB_FIELD_CONTACTS, contacts);
         
         WriteResult result = this.getCollection(UserDAO.COLLECTION_NAME).save(userObj);
-        System.out.println(result.getN());
         return result.getN() > 0;
     }
 

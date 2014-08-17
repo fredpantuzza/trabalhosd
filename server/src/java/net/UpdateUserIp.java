@@ -7,7 +7,8 @@ package net;
 import business.UserManager;
 import common.ActionResult;
 import common.ObjectSerialization;
-import dto.ReturnDTO;
+import dto.UserDTO;
+import dto.UserReturnDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -36,15 +37,16 @@ public class UpdateUserIp extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
-        ReturnDTO returnDTO = null;
+        UserReturnDTO returnDTO = null;
         try {
             String id = request.getParameter("id");
             String ip = request.getRemoteAddr();
             
-            ActionResult result = new UserManager().updateUserIp(id, ip) ? ActionResult.SUCCESS : ActionResult.ERROR;
-            returnDTO = new ReturnDTO(result);
+            UserDTO user = new UserManager().updateUserIp(id, ip);
+            ActionResult result = user != null ? ActionResult.SUCCESS : ActionResult.ERROR;
+            returnDTO = new UserReturnDTO(user, result);
         } catch (Exception ex) {
-            returnDTO = new ReturnDTO(ActionResult.ERROR, ex.getMessage());
+            returnDTO = new UserReturnDTO(null, ActionResult.ERROR, ex.getMessage());
         } finally {
             out.print(ObjectSerialization.toString(returnDTO));
             out.close();

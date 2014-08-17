@@ -11,6 +11,8 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Conexao;
 import model.Contato;
 import view.ViewContatos;
@@ -30,6 +32,7 @@ public class ControllerContatos {
     private final List<Conexao> listaConexoes;
 
     private ServicoConexao sConexao = null;
+    private ServicoAck sAck = null;
 
     public ControllerContatos(ViewContatos viewContatos) {
         this.view = viewContatos;
@@ -41,6 +44,7 @@ public class ControllerContatos {
     public boolean iniciarServicosConexao() {
         try {
             this.sConexao = new ServicoConexao();
+            this.sAck = new ServicoAck();
             return true;
         } catch (IOException ex) {
             return false;
@@ -125,16 +129,53 @@ public class ControllerContatos {
 
         private void executar() {
             while (true) {
-                final Conexao conexao = business.receberConexao(user);
+                try {
+                    final Conexao conexao = business.receberConexao(user);
 
-                registrarNovaConexao(conexao);
+                    registrarNovaConexao(conexao);
 
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        new viewConversa(conexao).setVisible(true);
-                    }
-                });
+                    EventQueue.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            new viewConversa(conexao).setVisible(true);
+                        }
+                    });
+                } catch (BusinessException ex) {
+                    Logger.getLogger(ControllerContatos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+    }
+
+    private class ServicoAck {
+
+        private final Thread t;
+
+        public ServicoAck() throws IOException {
+            this.t = new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    executar();
+                }
+            });
+            this.t.start();
+        }
+
+        private void executar() {
+            while (true) {
+                try {
+                    business.enviarAck(user);
+                } catch (BusinessException ex) {
+                    Logger.getLogger(ControllerContatos.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ControllerContatos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
 

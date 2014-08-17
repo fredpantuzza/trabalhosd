@@ -51,10 +51,6 @@ public class ControllerCadastro {
         });
     }
 
-    public String getIP() {
-        return business.getMeuIPAtual();
-    }
-
     public void onWindowClosed() {
         if (this.contato == null) {
             this.viewLogin.setVisible(true);

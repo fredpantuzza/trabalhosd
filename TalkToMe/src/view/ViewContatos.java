@@ -31,10 +31,10 @@ public class ViewContatos extends javax.swing.JFrame {
      * @param user
      */
     public ViewContatos(Contato user) {
-        this.controller = new ControllerContatos(this);
         this.user = user;
         this.tableContatosModel = new TableContatosModel();
         initComponents();
+        this.controller = new ControllerContatos(this);
         this.labelNick.setText(this.user.getNick());
         this.textChave.setText(this.user.getChave());
         inicializarListaContatos();

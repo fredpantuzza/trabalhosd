@@ -34,6 +34,7 @@ public class BusinessServidor {
     private static final String SERVER_LOGIN_ACTION = "/LoginAction";
     private static final String SERVER_GET_USER_ACTION = "/GetUserByIdAction";
     private static final String SERVER_REPLACE_USER_CONTACTS_ACTION = "/ReplaceUserContactsAction";
+    private static final String SERVER_UPDATE_USER_IP_ACTION = "/UpdateUserIp";
     
     private static final String MSG_ERRO_SENHA_INVALIDA = "Chave ou senha inválida!";
     private static final String MSG_ERRO_SERVIDOR_OFFLINE = "Não foi possível contactar o servidor.";
@@ -163,6 +164,21 @@ public class BusinessServidor {
             }
         } catch (Exception ex) {
             throw new BusinessException(MSG_ERRO_CONTATO_NAO_ENCONTRADO);
+        }
+    }
+    
+    public void enviarAck(Contato user) throws BusinessException {
+        String parameters = "id=" + user.getChave();
+        try {
+            String response = this.sendPost(BusinessServidor.SERVER_BASE_URL, BusinessServidor.SERVER_UPDATE_USER_IP_ACTION, parameters);
+            UserReturnDTO returnDTO = (UserReturnDTO) ObjectSerialization.fromString(response);
+            if (returnDTO.getResult().name().equals(ActionResult.SUCCESS.name())) {
+                user.setLastIP(returnDTO.getUserDTO().getLastIp());
+            } else {
+                throw new Exception(returnDTO.getMessage());
+            }
+        } catch (Exception ex) {
+            throw new BusinessException(MSG_ERRO_CADASTRAR);
         }
     }
     

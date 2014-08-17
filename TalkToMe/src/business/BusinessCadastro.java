@@ -23,11 +23,9 @@ public class BusinessCadastro {
         return instance;
     }
 
-    private final BusinessRede businessRede;
     private final BusinessServidor businessServidor;
 
     private BusinessCadastro() {
-        this.businessRede = BusinessRede.getInstance();
         this.businessServidor = BusinessServidor.getInstance();
     }
 
@@ -42,15 +40,6 @@ public class BusinessCadastro {
      */
     public Contato cadastrar(String nick, String senha) throws BusinessException {
         return businessServidor.cadastrar(nick, senha);
-    }
-
-    /**
-     * Retorna o IP atual do usuário.
-     *
-     * @return
-     */
-    public String getMeuIPAtual() {
-        return businessRede.getMeuIP();
     }
 
     /**

@@ -37,9 +37,13 @@ public class BusinessConexao {
         this.serverSocket = new ServerSocket(Conexao.DEFAULT_SERVER_PORT);
     }
 
-    public static BusinessConexao getInstance() throws IOException {
+    public static BusinessConexao getInstance() {
         if (instance == null) {
-            instance = new BusinessConexao();
+            try {
+                instance = new BusinessConexao();
+            } catch (IOException ex) {
+                Logger.getLogger(BusinessConexao.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return instance;
     }
@@ -132,4 +136,5 @@ public class BusinessConexao {
             throw new BusinessException(MSG_ERRO_DESCONHECIDO);
         }
     }
+    
 }
