@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
  */
 public class Conexao {
 
-    public static final int DEFAULT_SERVER_PORT = 8089;
+    public static final int DEFAULT_SERVER_PORT = 15438;
     
     private Contato user;
     private Contato destino;

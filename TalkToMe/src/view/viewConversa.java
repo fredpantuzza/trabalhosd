@@ -163,6 +163,7 @@ public class viewConversa extends javax.swing.JFrame {
             texto.append(msg.getRemetente().getNick()).append(" disse (").append(apresentarHora(msg.getTime())).append("):\n");
             texto.append(msg.getMensagem()).append("\n\n");
         }
+        this.textConversa.setText(texto.toString());
     }
 
     private String apresentarHora(Date time) {

@@ -20,6 +20,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Contato;
 
 /**
@@ -28,14 +30,14 @@ import model.Contato;
  */
 public class BusinessServidor {
 
-    private static final String SERVER_BASE_URL = "http://localhost:8084/server";
+    private static final String SERVER_BASE_URL = "http://54.187.180.160:8080/server"; //"http://localhost:8084/server";
     private static final String SERVER_GET_USER_CONTACTS_ACTION = "/GetUserContactsByIdAction";
     private static final String SERVER_INSERT_USER_ACTION = "/InsertUserAction";
     private static final String SERVER_LOGIN_ACTION = "/LoginAction";
     private static final String SERVER_GET_USER_ACTION = "/GetUserByIdAction";
     private static final String SERVER_REPLACE_USER_CONTACTS_ACTION = "/ReplaceUserContactsAction";
     private static final String SERVER_UPDATE_USER_IP_ACTION = "/UpdateUserIp";
-    
+
     private static final String MSG_ERRO_SENHA_INVALIDA = "Chave ou senha inválida!";
     private static final String MSG_ERRO_SERVIDOR_OFFLINE = "Não foi possível contactar o servidor.";
     private static final String MSG_ERRO_CADASTRAR = "Não foi possível realizar o cadastro!";
@@ -43,12 +45,12 @@ public class BusinessServidor {
 
     private static BusinessServidor instance = null;
 
-    private BusinessServidor() {
+    protected BusinessServidor() {
     }
 
     public static BusinessServidor getInstance() {
         if (instance == null) {
-            instance = new BusinessServidor();
+            instance = new BusinessServidorGambiarra();
         }
         return instance;
     }
@@ -118,6 +120,7 @@ public class BusinessServidor {
                 throw new Exception(returnDTO.getMessage());
             }
         } catch (Exception ex) {
+            Logger.getLogger(BusinessConexao.class.getName()).log(Level.SEVERE, null, ex);
             throw new BusinessException(MSG_ERRO_CADASTRAR);
         }
     }
@@ -138,7 +141,7 @@ public class BusinessServidor {
         }
         String contactsList = ObjectSerialization.toString((Serializable) contactsIds);
         String parameters = "id=" + user.getChave() + "&contacts=" + contactsList;
-        
+
         try {
             String response = this.sendPost(BusinessServidor.SERVER_BASE_URL, BusinessServidor.SERVER_REPLACE_USER_CONTACTS_ACTION, parameters);
             ReturnDTO returnDTO = (ReturnDTO) ObjectSerialization.fromString(response);
@@ -166,7 +169,7 @@ public class BusinessServidor {
             throw new BusinessException(MSG_ERRO_CONTATO_NAO_ENCONTRADO);
         }
     }
-    
+
     public void enviarAck(Contato user) throws BusinessException {
         String parameters = "id=" + user.getChave();
         try {
@@ -181,9 +184,10 @@ public class BusinessServidor {
             throw new BusinessException(MSG_ERRO_CADASTRAR);
         }
     }
-    
+
     /**
      * Envia requisição HTTP Post.
+     *
      * @param url URL do servidor.
      * @param servlet Serviço (servlet).
      * @param parameters Parâmetros da requisição.

@@ -8,6 +8,7 @@ package business;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -24,23 +25,24 @@ import model.Mensagem;
  */
 public class BusinessConexao {
 
-    private static final String MSG_ERRO_CONTATO_OFFLINE = "Não foi possível conectar com o contato.";
-    private static final String MSG_ERRO_DESCONHECIDO    = "Ocorreu um erro inesperado ao conectar com o usuário.";
-    
-    private static final String MSG_WELCOME = "hello";
-    
-    private ServerSocket serverSocket;
-    
+    protected static final String MSG_ERRO_CONTATO_OFFLINE = "Não foi possível conectar com o contato.";
+    protected static final String MSG_ERRO_DESCONHECIDO = "Ocorreu um erro inesperado ao conectar com o usuário.";
+
+    protected static final String MSG_WELCOME = "hello";
+
+    protected final ServerSocket serverSocket;
+
     private static BusinessConexao instance = null;
 
-    private BusinessConexao() throws IOException {
-        this.serverSocket = new ServerSocket(Conexao.DEFAULT_SERVER_PORT);
+    protected BusinessConexao() throws IOException {
+        this.serverSocket = new ServerSocket();
+        this.serverSocket.bind(new InetSocketAddress(Conexao.DEFAULT_SERVER_PORT));
     }
 
     public static BusinessConexao getInstance() {
         if (instance == null) {
             try {
-                instance = new BusinessConexao();
+                instance = new BusinessConexaoGambiarra();
             } catch (IOException ex) {
                 Logger.getLogger(BusinessConexao.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -51,7 +53,7 @@ public class BusinessConexao {
     public Conexao getConexaoContato(Contato user, Contato contato) throws BusinessException {
         try {
             Conexao connection = new Conexao(user, contato, contato.getLastIP());
-            
+
             try {
                 // envia mensagem de início
                 this.enviarMensagem(connection, new Mensagem(user, MSG_WELCOME, 0, new Date()));
@@ -62,7 +64,8 @@ public class BusinessConexao {
                 } else {
                     throw new Exception();
                 }
-            } catch(Exception ex) {
+            } catch (Exception ex) {
+                Logger.getLogger(BusinessConexao.class.getName()).log(Level.SEVERE, null, ex);
                 this.finalizarConexao(connection);
                 throw new BusinessException(MSG_ERRO_DESCONHECIDO);
             }
@@ -90,7 +93,6 @@ public class BusinessConexao {
             ObjectOutputStream oos = new ObjectOutputStream(conexao.getClientSocket().getOutputStream());
             oos.writeObject(msg);
             oos.flush();
-            oos.close();
         } catch (IOException ex) {
             Logger.getLogger(BusinessConexao.class.getName()).log(Level.SEVERE, null, ex);
             throw new BusinessException(MSG_ERRO_DESCONHECIDO);
@@ -101,8 +103,7 @@ public class BusinessConexao {
         try {
             ObjectInputStream ois = new ObjectInputStream(conexao.getClientSocket().getInputStream());
             Object readObj = ois.readObject();
-            ois.close();
-            
+
             if (readObj instanceof Mensagem) {
                 return (Mensagem) readObj;
             } else {
@@ -121,11 +122,10 @@ public class BusinessConexao {
         try {
             Socket clientSocket = this.serverSocket.accept();
             Conexao connection = new Conexao(user, clientSocket);
-            
+
             // espera mensagem de boas vindas
             Mensagem welcomeMessage = this.receberMensagem(connection);
             if (welcomeMessage.getMensagem().equals(MSG_WELCOME)) {
-                connection.setUser(user);
                 connection.setDestino(welcomeMessage.getRemetente());
                 return connection;
             } else {
@@ -136,5 +136,5 @@ public class BusinessConexao {
             throw new BusinessException(MSG_ERRO_DESCONHECIDO);
         }
     }
-    
+
 }

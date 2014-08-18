@@ -5,6 +5,7 @@
  */
 package repository;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,9 +46,14 @@ public class RepositoryContato {
     public List<Contato> getListaLocalContatos(Contato user) {
         ArrayList<Contato> listaContatos = new ArrayList<>();
 
+        File file = new File(user.getChave() + ".lst");
+        if (!file.exists()) {
+            return listaContatos;
+        }
+
         FileInputStream stream = null;
         try {
-            stream = new FileInputStream(user.getChave() + ".lst");
+            stream = new FileInputStream(file);
             ObjectInputStream objStream = new ObjectInputStream(stream);
             Contato contato;
             while ((contato = (Contato) objStream.readObject()) != null) {
@@ -59,6 +65,8 @@ public class RepositoryContato {
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RepositoryContato.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (EOFException ex) {
+
         } catch (IOException ex) {
             Logger.getLogger(RepositoryContato.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
